@@ -1,0 +1,75 @@
+<div class="right_link_in_catalog">
+	<%= link_to t('back'), products_and_services_catalog_select_industry_category_path, :class => :button %>
+</div>
+
+<!-- FGM: INDUSTRY CATEGORY specific BLOG -->
+<% unless @posts.blank? %>
+	<div id="industry_category_blog">
+		<div id="title">
+			Más sobre <%= @industry_category.present? ? @industry_category.name : "este rubro" %>
+		</div>
+		<%= render "layouts/industry_category_blog" %>	
+	</div>
+<% end -%>
+
+
+<% if @watch == "products_and_services" %>
+	<div id="products" style="<%= "width:72%;" if @posts.present? %>">
+		<%= render "products_and_services" %>
+
+		<div class="clear"></div>
+		<% if @objects.total_pages > 1 %>
+			<div class="apple_pagination">
+				<%= will_paginate @objects, :container => false %>
+			</div>		
+		<% end %>	
+	</div>
+<% elsif @watch == "suppliers" %>
+	<div id="suppliers" style="<%= "width:72%;" if @posts.present? %>">
+		<%= render "layouts/suppliers" %>
+		<div class="clear"></div>
+		<% # FGM: Disabled pagination for supplier_accounts in Catalog %>
+		<% if false && @supplier_accounts.total_pages > 1 %>
+			<div class="apple_pagination">
+				<%= will_paginate @supplier_accounts, :container => false %>
+			</div>
+		<% end -%>
+	</div>
+<% elsif @watch == "blog" && @post.present? %>
+	<div class="box" style="width:68%;">
+		<div class="blog_fecha">
+			<%= l(@post.date) %>
+		</div>
+		<div class="blog_titulos">
+			<%= @post.title %>
+		</div>
+		<div class="blog_images">
+			<% @post.post_images.each do |i| %>
+				<%= image_tag i.photo.url(:small) %><br>
+			<% end %>
+		</div>
+		<div class="blog_texto">
+			<%= raw @post.content.gsub(/\n/, '<br/>') unless @post.content.blank? %>	
+		</div>
+		<!-- AddThis Button BEGIN -->
+		<div class="addthis_toolbox addthis_default_style ">
+		<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+		<a class="addthis_button_tweet"></a>
+		<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+		</div>
+		<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-4f70dd7e56782207"></script>
+		<script type="text/javascript">
+		// FGM: little fix to remove a "clear:both" div provenient from Addthis
+		$(window).bind("load", function() {
+			$('.atclear').remove();
+			$('#comments').css('margin-top','15px');
+		});
+		</script>
+		<!-- AddThis Button END -->
+		<br />
+		<div id="comments" class="titulos top_dottedLine">
+			<%= t('commentaries') %>
+		</div>
+		<div class="fb-comments" data-href="<%= request.url %>/" data-num-posts="4" data-width="540"></div>
+	</div>
+<% end %>

@@ -1,0 +1,116 @@
+/* ----------------------------Main Menu -----------------------*/
+ul {
+	margin:0;
+	padding:0;
+}
+li {
+	list-style:none;
+	width:auto;
+}
+ul.menu {
+	font-size:13px;
+	line-height:45px;
+	margin:0px;
+	padding:0px;
+}
+ul.especial_move {
+	float:left;
+	top:183px;
+	margin-left:150px;
+}
+li.menu_li_disabled {
+	border-bottom:solid 1px #ccc;
+	background:#efefef;
+	color: #BBBBBB;
+  padding-left: 15px;
+}
+li.menu_li {
+	border-bottom:solid 1px #ccc;
+	position:relative;
+}
+.separador_menu {
+	line-height:30px !important;
+	padding-left:10px;
+	padding-top:4px;
+	background:url(<%= asset_path "campaign/fondo_separa_menu.jpg" %>);
+	color:#0082FF;
+	font-weight:lighter;
+}
+li.menu_li:hover {
+	border-bottom:solid 1px #ccc;
+	text-decoration:none;
+}
+a.left_link {
+	color:#444;
+	height:45px;
+	display:block;
+	padding-left:15px;
+}
+a.left_link_special {
+	color:#0088CC;
+	height:45px;
+	display:block;
+	padding-left:15px;
+}	a.left_link_special:hover {
+		text-decoration:none;
+		cursor:pointer;
+		background:#F5F5F5;
+	}
+a.left_link:hover {
+	text-decoration:none;
+	cursor:pointer;
+}
+.hover_style {
+	position:relative;
+	height:45px;
+	width:140px;
+	background:url(<%= asset_path 'hover_style.png' %>) no-repeat;
+	padding:0px 40px 0px 0px;
+}
+.hover_style .left_link {
+	color:white;
+}
+/* ---------------------------- Sub Menu -----------------------*/
+
+li.menu_li ul {
+	display:none;
+	position:absolute;	
+}
+li:hover.menu_li ul {
+	display:block;
+}
+.menu_li_category {
+	line-height:17px;
+}
+#sub_menu {
+	float:left;
+	position:relative;
+	border:1px solid #ccc;
+	background:white;
+	padding-left:15px;
+	z-index:1;
+}
+#sub_menu .sub_menu_column {
+	float:left;
+	margin:10px;
+}
+.notification_counter, .notification_counter_selected {
+	border:1px solid #aaa;
+	-webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+	background-color:#ddd;
+  color: gray;
+  height: 15px;
+  line-height: 15px;
+  padding: 0 4px;
+  position: absolute;
+  right: 10px;
+  top: 14px;
+}
+.notification_counter_selected {
+	background-color:white;
+	color:gray;
+}

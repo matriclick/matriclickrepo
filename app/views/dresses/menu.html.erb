@@ -1,0 +1,37 @@
+<div class="titulos">¡Novias venden sus vestidos!</div>
+<div class="holder">
+	<div class="half center">
+		<div class="marketing_message">
+			Aprovecha esta herramienta ¡gratis hasta mayo!, luego deberás pagar para habilitarla a menos que estés inscrito en <br /><b>Novios Paris</b>
+		</div>
+		<div class="centered_wrapper">
+			<div class="centered_positioner">
+				<div class="centered_content" style="text-align:center;">
+					<%= link_to t('enter'), dresses_path(), :class => 'button' %>
+					<br />
+					<br />
+					<%= link_to t('sell_your_dress'), "#sell_dress", :id => 'form_inline', :class => 'button' %>
+				</div>
+			</div>			
+		</div>
+	</div>
+	<div class="half center">
+		<%= image_tag ('novios_paris.png') %>
+	</div>
+</div>
+<div style="display:none"> <!-- fancy view -->
+	<div id="sell_dress">
+		<div class="sell_dress_full_content" style="background: url(<%= asset_path "vende_tu_vestido.jpg" %>);">
+			<div class="sell_dress_titulo">
+				¡Vende tu vestido usado en Matriclick.com!
+			</div>
+			<div class="sell_dress_texto">
+				Para vender tu vestido, envía un correo a <b>novios@matriclick.com</b> con las fotos del vestido, los detalles, el precio y tus datos de contacto.<br /><br />
+				Si prefieres, nos puedes pasar tu vestido y nosotros lo cuidamos y vendemos*
+			</div>
+			<div class="sell_dress_texto_bottom">
+				*Para conocer los precios y planes envíanos un correo a <i>novios@matriclick.com</i>
+			</div>	
+		</div>
+	</div>
+</div>

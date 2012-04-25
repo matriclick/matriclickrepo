@@ -1,0 +1,77 @@
+<div id="user_bar">
+	<div class="box_nine_six_cero center relative">
+		<div id="user_options">	
+		<% if session[:preview] == true and not @supplier.blank? %>          
+      <% if @supplier.supplier_account.approved_by_supplier == false or @supplier.supplier_account.approved_by_supplier.nil? %>
+        <div id="validation_link">
+		      <%= link_to t('validate_me'), supplier_account_path(@supplier, :validate_account => true), :method => :put, :confirm => t("are_you_sure_you_want_to_validate") %>
+		    </div>
+      <% elsif @supplier.supplier_account.approved_by_supplier == true && (@supplier.supplier_account.approved_by_us == false or @supplier.supplier_account.approved_by_us.nil? ) %>
+      <div id="validation_label">
+        <%= t('awaiting_for_matriclick_approval') %>
+      </div>
+      <% end %>
+				<div class="user_bar_login">
+					<%= link_to t('close_preview'), "#", :onclick =>"window.close();return false;" %>
+				</div>				
+		<% else %>
+			<% unless @supplier_login_footer %>
+				<% if user_signed_in? %>
+					<%= link_to "#{current_user.email} :", edit_user_registration_path,  :class => 'light_gray_small_link' %> <%= link_to t('logout'), destroy_user_session_path, method: :delete %>
+				<% elsif (params[:controller] == "devise/registrations" and (params[:action] == "new" or params[:action] == "create")) or
+				(params[:controller] == "devise/passwords" and (params[:action] == "new" or params[:action] == "create")) %>
+					<%= link_to t('sign_up'), new_user_registration_path %>
+				<% else %>
+					<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+					<div class="user_bar_login">
+						<span class="user_bar_login_span">Ingreso novios/as</span>
+						<%= f.email_field :email, :placeholder => t('email'), size: '20', :class => "user_bar_form" %>
+						<%= f.password_field :password, :placeholder => t('password'), size: '20', :class => "user_bar_form" %>
+						<%= f.submit t('sign_in'), :class => "user_form_button" %>
+					</div>
+					<% end %>
+				<% end %>
+			<% end %>
+		<% end %>	
+		</div>
+		<div class="logo_matri">
+			<%= link_to (image_tag 'logo_matriclick_sin_caja.png', :alt => "matriclick.com"), user_signed_in? ? current_user.role_id == 3 ? root_path : blog_path : root_path %>
+		</div>
+		<% if user_signed_in? %>
+			<% if current_user.role_id == 3 %>
+				<%= render "layouts/guest_notice" %>				
+			<% end %>
+		<% end %>
+
+		<% unless ["campaign", "home","sessions","registrations"].include? controller_name %>
+			<%= link_to image_tag('link_campana.png'), campaign_wedding_of_the_year_path, id: 'link_campana' %>			
+		<% end %>
+
+		
+		<% if "campaign".include? controller_name %>
+			<div style="position:absolute;top:45px;right:20px;"><%= image_tag 'logo_campana.png', width: '180' %></div>
+		<% end %>
+		
+		<% # FGM: Disabled Budget Box for the moment %>
+		<% if (["products_and_services_catalog", "suppliers_catalog","user_profile", "matrichecklist", "budgets", "invitees","bookings","user_conversations", "expenses", "posts"].include? params[:controller] or params[:action] == "budget") and user_signed_in? and false %>
+			<div class="budgets_holder">
+				<div class="caja_budget_bronce">
+					<span class="texto_caja_budget"><%= link_to "Ppto Económico", econ_budget_path %></span>
+					<span class="numbers_caja_budget"><%= current_user.user_account.budgets.by_type("$").count %></span>
+				</div>
+				<div class="caja_budget_silver">
+					<span class="texto_caja_budget"><%= link_to "Ppto Estándar", standard_budget_path %></span>
+					<span class="numbers_caja_budget"><%= current_user.user_account.budgets.by_type("$$").count %></span>
+				</div>
+				<div class="caja_budget_gold">
+					<span class="texto_caja_budget"><%= link_to "Ppto Premium", premium_budget_path %></span>
+					<span class="numbers_caja_budget"><%= current_user.user_account.budgets.by_type("$$$").count %></span>
+				</div>
+				<div class="caja_budget_reservas">
+					<span class="texto_caja_budget"><%= link_to 'Reservas', bookings_booking_list_path %> </span>
+					<span class="numbers_caja_budget"><%= Event.where(:user_account_id => current_user.user_account.id ).count %></span>
+				</div>
+			</div>			
+		<% end %>
+	</div>
+</div>

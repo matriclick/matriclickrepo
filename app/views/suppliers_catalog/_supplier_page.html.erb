@@ -1,0 +1,51 @@
+<%= render "layouts/reviews_box", reviews: @supplier.supplier_account.reviews %>
+<div class="supplier_page_in_image">
+ 	<%=  link_to image_tag(@supplier.supplier_account.image.url(:small)), @supplier.supplier_account.image.url(:original), :class => :fancybox %>
+	<% unless (imgs = @presentation.presentation_images).blank? %>
+		<div class="supplier_page_in_image_count">
+			<% imgs.each_with_index do |image, i| %>
+				<%= link_to image_tag(image.image.url(:tiny)), image.image.url(:original), :class => :fancybox, :rel => :gallery  %>
+			<% end %>
+		</div>
+	<% end %>	
+</div>
+
+<div class="supplier_page_in_data">
+	<div class="supplier_page_in_name"><%= "#{crop_if_longer @supplier.supplier_account.fantasy_name, 47}" %></div>	
+	<ul class="supplier_page_in_supplier">
+		<li class="supplier_data"><%= "Teléfono: #{@supplier.supplier_account.phone_number}" %></li>
+		<li class="supplier_data"><%= "Página web: #{(page = @supplier.supplier_account.web_page).blank? ? 'N/A' : page}" %></li>
+		<li class="supplier_data"><%= "Rubros: " %><% if @supplier.supplier_account.industry_categories.blank? %>
+		<%= "N/A" %>
+		<% else %>
+			<% for ic in @supplier.supplier_account.industry_categories %>
+				<% if session[:preview] == true %>
+					<%= ic.name %><br/>
+				<% else -%>
+					<%= link_to ic.name, products_and_services_catalog_index_path(:industry_category_ids => ic.id) %><br/>
+				<% end -%>
+			<% end %>
+		<% end %></li>
+		<% if user_signed_in? %>
+			<% if current_user.role_id == 3 -%>
+				<%= link_to t('ask_reference'), "#sign_in_fancybox" , :id => "fancybox_form", :class => "button" %>
+				<%= render "layouts/sign_in_fancybox" %>
+			<% else -%>
+				<li class="button_in_product">
+					<%= render 'layouts/reference_request' %>
+				</li>			
+			<% end %>
+		<% end %>
+	</ul>		
+	<div class="supplier_page_in_links"></div>
+</div>
+<div class="share"></div>
+<ul class="supplier_page_in_menu">
+	<li class="pestana <%= "pestana_on" if params[:action] == "supplier_products_and_services" %>"><%= link_to t('products_and_services'), supplier_products_and_services_path(@supplier, :public_url => @supplier.supplier_account.public_url) %> <%= "(#{@supplier.supplier_account.services_and_products_count})" %></li>
+	<li class="pestana <%= "pestana_on" if params[:action] == "supplier_description" %>"><%= link_to "Descripción del Proveedor", supplier_description_path(@supplier, :public_url => @supplier.supplier_account.public_url) %></li>
+	<li class="pestana <%= "pestana_on" if params[:action] == "supplier_contacts" %>"><%= link_to "Contactos", supplier_contacts_path(@supplier, :public_url => @supplier.supplier_account.public_url) %> <%= "(#{@supplier.supplier_account.supplier_contacts.count})" %></li>
+	<li class="pestana <%= "pestana_on" if params[:action] == "supplier_reviews" %>"><%= link_to "Comentarios (#{@supplier.supplier_account.reviews.count})", supplier_reviews_path(@supplier, :public_url => @supplier.supplier_account.public_url) %></li>
+</ul>
+<div class="supplier_page_in_content">
+	<%= yield :supplier_page_in_content %>
+</div>

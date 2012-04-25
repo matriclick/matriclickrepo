@@ -1,0 +1,27 @@
+<div class="titulo_style">
+	<h1>Listing industry_categories</h1>
+</div>
+
+<div class="createNew">
+	<%= link_to 'New Industry category', new_industry_category_path, :class => :button %>
+</div>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @industry_categories.each do |industry_category| %>
+  <tr>
+    <td><%= industry_category.name %></td>
+    <td><%= link_to 'Show', industry_category %> |
+    <%= link_to 'Edit', edit_industry_category_path(industry_category) %> |
+    <%= link_to 'Destroy', industry_category, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

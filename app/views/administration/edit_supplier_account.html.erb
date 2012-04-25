@@ -1,0 +1,26 @@
+<div class="right_link">
+	<%= link_to t('back'), administration_show_supplier_account_path(@supplier_account), :class => :button  %>
+</div>
+<div class="titulos">
+	Editar Cuenta del Proveedor
+</div>
+
+<%= form_for @supplier_account, :url=> administration_update_supplier_account_path(@supplier_account) do |f| %>
+	<% if @supplier_account.errors.any? %>
+	<div id="error_explanation">
+		<h2><%= @supplier_account.errors.count > 1 ? t("activerecord.errors.template.header.other") : t("activerecord.errors.template.header.one") %>:</h2>
+		<ul>
+			<% @supplier_account.errors.full_messages.each do |msg| %>
+			<li><%= msg %></li>
+			<% end %>
+		</ul>
+	</div>
+	<% end %>
+	<%= f.label :approved_by_supplier %>
+	<%= f.check_box :approved_by_supplier %>
+	<%= f.label :approved_by_us %>
+	<%= f.check_box :approved_by_us %>
+	<%= f.label :mail_sent %>
+	<%= f.check_box :mail_sent %>
+	<%= render 'supplier_accounts/form_content', :f => f %>
+<% end %>

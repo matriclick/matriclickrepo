@@ -1,0 +1,529 @@
+/*
+* This is a manifest file that'll automatically include all the stylesheets available in this directory
+* and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
+* the top of the compiled file,but it's generally better to create a new file per style scope.
+*= require_self
+*= require_directory . 
+*/
+a img {
+	border:none !important;
+}
+
+html {
+	margin: 0;
+	overflow-y: scroll;
+	font-size:12px;
+}
+body {
+	margin:0;
+	margin-bottom: 30px;
+}
+.border_right {
+	border-right:1px solid #ccc;
+}
+.placeholder {
+	color:gray;
+}
+.help_tip {
+	font-size:11px;
+	color:#777;
+	font-style:italic;
+	padding:2px 0 7px 0;
+}
+.help_tip_iva {
+	font-size:11px;
+	color:#777;
+	font-style:italic;
+	padding:5px 0 0px 0;
+}
+textarea {
+	width: 99%;
+	font-family:helvetica, arial, sans-serif;
+	font-size:12px;
+}
+.center {
+	margin-right: auto;
+	margin-left: auto;
+}
+.relative {
+	position:relative;
+}
+.text_center {
+	text-align:center;
+}
+.centered_wrapper {
+	position: relative;
+	overflow: hidden;
+}
+.centered_positioner {
+	float: left;
+	position: relative;
+	left: 50%;
+}
+.centered_content {
+	float: left;
+	position: relative;
+	left: -50%;
+}
+.pregunta {
+	position:relative;
+	top:4px;
+	left:10px;
+	cursor:pointer;
+}
+.blanco {
+	background:#FFF;
+}
+table.invisible, table.invisible td, table.invisible th {
+	border-width:0px;
+	border-color:#FFF;
+}
+table.invisible td {
+	padding:8px 15px 8px 0;
+}
+.box_form, .box, .document_box, .box100 {
+	border-top:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+	padding:5px 5px 5px 10px;
+	width:99%;
+	background:#F5F5F5;
+}
+.box100 {
+	width:auto;
+}
+.box100 p {
+	margin:0;
+}
+.document_box {
+	width:98%;
+	margin:0 auto;
+	border-bottom:0px;
+}
+.overflow_x {
+	overflow-x:auto;
+}
+.holder {
+	border-top:1px dotted #ccc;
+	width:99%;
+	padding: 10px 0;
+}
+.form_section {
+	margin-bottom:20px;
+}
+.form_section .title {
+	font-size:14px;
+	color:black;
+	font-weight:bolder;
+}
+.form_section .content td {
+	padding-left:10px;
+}
+.half {
+	float:left;
+	width:49%;
+}
+.titulos {
+	font-size:18px;
+	font-weight:bold;
+	padding:10px 0 2px 0;
+	color:#444;	
+}
+
+.titulos_small {
+	font-size:14px;
+	font-weight:bold;
+	padding:10px 0 2px 0;
+	color:#444;	
+}
+.subtitulos {
+	font-size:16px;
+	font-weight:bold;
+	padding:10px 0 0 0;
+	color:#444;
+}
+.sign_boxes {
+	width:412px;
+	margin-top:20px;
+}
+.register_box {
+	width: 430px;
+	height: 315px;
+	background-color:white;
+	color:#555;
+}
+.span_to_center {
+	margin-left:124px;
+}
+.span-500 {
+	width:500px;
+}
+.span-115 {
+	width:115px;
+}
+.span-230 {
+	width:230px;
+}
+.right_link {
+	float:right;
+	margin-top:-8px;
+}
+.right_link_in_catalog {
+	float:right;
+	margin-top:-115px;
+}
+.right_link_in_catalog_page {
+	float:right;
+	margin-top:-48px;
+}
+
+.documento {
+	padding:10px 55px;
+}
+.tabla_documento {
+	padding:0px 5px;
+}
+.imagen_grupo_matriclick {
+	text-align: center;
+}
+.imagen_duo_matriclick {
+	left:250px;
+	width:300px;
+	float:left;
+	margin-top:-30px;
+}
+.padding {
+	padding:5px 10px;
+}
+.margin-top {
+	float:left;
+	margin-top:30px;
+}
+
+/*------------------------------- Buttons -------------------------*/
+
+.small_button {
+	-moz-box-shadow: 0px 1px 0px 0px #bbdaf7;
+	-webkit-box-shadow: 0px 1px 0px 0px #bbdaf7;
+	box-shadow: 0px 1px 0px 0px #bbdaf7;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #79bbff), color-stop(1, #60aaf0) );
+	background:-moz-linear-gradient( center top, #79bbff 5%, #60aaf0 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#79bbff', endColorstr='#60aaf0');
+	background-color:#79bbff;
+	-moz-border-radius:30px;
+	-webkit-border-radius:30px;
+	border-radius:30px;
+	border:1px solid #84bbf3;
+	display:inline-block;
+	color:#ffffff;
+	font-family:arial;
+	font-size:12px;
+	font-weight:normal;
+	padding:2px 20px;
+	text-decoration:none;
+	text-shadow:1px 0px 0px #528ecc;
+	margin:8px 0;
+	cursor:pointer;
+}
+.small_button:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #60aaf0), color-stop(1, #79bbff) );
+	background:-moz-linear-gradient( center top, #60aaf0 5%, #79bbff 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#60aaf0', endColorstr='#79bbff');
+	background-color:#60aaf0;
+	color:#fff;
+	text-decoration:none;
+}
+.small_button:active {
+	position:relative;
+	top:1px;
+}
+
+.button {
+	-moz-box-shadow:inset 0px 1px 0px 0px #dcecfb;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #dcecfb;
+	box-shadow:inset 0px 1px 0px 0px #dcecfb;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #bddbfa), color-stop(1, #80b5ea) );
+	background:-moz-linear-gradient( center top, #bddbfa 5%, #80b5ea 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#bddbfa', endColorstr='#80b5ea');
+	background-color:#bddbfa;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #84bbf3;
+	display:inline-block;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:12px;
+	font-weight:bold;
+	padding:5px 18px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #528ecc;
+	cursor:pointer;
+}
+
+.button:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #80b5ea), color-stop(1, #bddbfa) );
+	background:-moz-linear-gradient( center top, #80b5ea 5%, #bddbfa 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#80b5ea', endColorstr='#bddbfa');
+	background-color:#80b5ea;
+	color:white;
+	text-decoration:none;
+}
+
+.button:active {
+	position:relative;
+	top:1px;
+}
+.button_agregar_nested {
+	position:relative;
+	margin:0 0 10px 0;
+}
+
+/*------------------------------- Button -------------------------*/
+
+.bottom_links {
+	width:100%;
+	height:30px;
+	background:#dedede;
+	border-top:dotted 1px #666;
+	font-size:12px;
+}
+.bottom_link_box {
+	float:left;
+	width:auto;
+	margin-left:20px;
+	margin-top:7px;
+}
+.user_bar_login {
+	float:right;
+	height:18px;
+	margin-right:-10px;
+}
+.user_bar_login_span {
+	color:#fff;
+	font-weight:lighter;
+	font-size:11px;
+	margin-right:5px;
+}
+.user_bar_form {
+	background:#eee;
+	border:solid 1px #ccc;
+	-webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+	padding:1px;
+	width:130px;
+}
+.user_form_button {
+	width:60px;
+	background:url(<%= asset_path 'button_inscribirse.png' %>);
+	color:#fff;
+	font-size:12px;
+	cursor:pointer;
+	-webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+	border:solid 1px #555;
+	padding:1px;
+}
+.user_form_button:hover {
+	width:60px;
+	background:url(<%= asset_path 'button_inscribirse_on.png' %>);
+	color:#fff;
+	font-size:12px;
+	cursor:pointer;
+	-webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+	border:solid 1px #555;
+	padding:1px;
+}
+div.file_field {
+    position: relative;
+		font-family: helvetica, arial, sans-serif;
+		font-size:12px;
+}
+.powered_redvel {
+	width:100%;
+	text-align:center;
+	font-size:10px;
+	clear:both;
+	color:#444;
+}
+#vimeo_tab {
+	position: relative;
+	top: 67px;
+	left: 78%;
+	background: #D5F4FF;
+	width: 170px;
+	padding: 10px;
+	text-align: center;
+	-webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+}
+#vimeo_tab a {
+	color:#7f7f7f;
+}
+#vimeo_tab a:hover {
+	color:#08C;
+}
+.filter_search {
+	font-size:12px;
+}
+.services_search {
+	float:right;
+}
+.search_field {
+	height:20px;
+	border-bottom:solid 1px #ccc;
+	text-align:center;
+	font-weight:bold;
+}
+.box_filter_content_column {
+	float:left;
+	padding:0 15px;
+}
+.box_filter_holder {
+	width:100%;
+	float:left;
+	background:#ddd;
+	border:solid 1px #888;
+}
+.in_shadow_top {
+	width:100%;
+	height:5px;
+	background:url(<%= asset_path 'shadow_top_filter.png' %>) repeat-x;
+	float:left;
+}
+.box_filter_content {
+	width:100%;
+	float:left;
+	padding:0 15px;
+}
+.in_shadow_bottom {
+	width:100%;
+	height:5px;
+	background:url(<%= asset_path 'shadow_bottom_filter.png' %>) repeat-x;
+	float:left;
+}
+
+/*-------------------------------- Budget index -------------------------------*/
+.box_select_menu {
+  overflow: hidden;
+  text-align: center;
+  white-space: nowrap;
+  width: 806px;
+	margin:20px 0 ;
+}
+.select_menu {
+	display: inline-block;
+	letter-spacing: normal;
+	vertical-align: middle;
+	white-space: normal;
+	margin:0 20px;
+}
+.menu_image {
+	width:100px;
+	height:100px;
+	float:left;
+	margin-bottom:8px;
+}
+.menu_image_ceremonies {
+	width:120px;
+	height:100px;
+	float:left;
+	margin-bottom:8px;
+}
+.texto_menu {
+	clear:both;
+	text-align:center;
+}
+.box_resume {
+	width:800px;
+	float:left;
+	margin:10px 0;
+}
+.in_text_resume {
+	float:left;
+	margin:8px 0 0 0;
+	clear:both;
+}
+/*-------------------------------- END Budget index -------------------------------*/
+.left_loading {
+	float:right;
+	height:13px;
+	width:13px;
+}
+.select_loading {
+	height:13px;
+	width:13px;
+	position:relative;
+	top:3px;	
+}
+#unread_bookings {
+	position:relative;
+	float: left;
+	top:15px;
+	right:5px;
+}
+
+/*-------------------------------- Invitees_groups CSS -------------------------------*/
+
+.invitee_group_padding {
+	position:relative;
+	padding:5px 0 5px 0;
+}
+.left_side {
+	float:left;
+	width:auto;
+	padding:0 10px 0 0;
+}
+.left_border {
+	border-left:dotted 1px #ccc;
+}
+.border_height {
+	height:440px;
+}
+.check_box_padding {
+	padding:10px 10px 0 20px;
+}
+.checkbox_confirmado {
+	position:relative;
+}
+.unread {
+	background:#E6E9F0 !important;
+	border-left:2px solid #555;
+}
+a.see_more {
+	font-size:10px;
+	font-weight:normal;
+}
+.field .fields {
+	min-height:50px;
+}
+
+/* -- Video Tutorial CSS -- */
+.step {
+	margin:5px 20px;
+	float:left;
+	width:320px;
+	height:270px;
+}
+.step_text {
+	float:left;
+}
+.step h3 span{
+	color:orangered;
+}
+.signo_pregunta_with_text a{
+	position:relative;
+	bottom:3px;
+}

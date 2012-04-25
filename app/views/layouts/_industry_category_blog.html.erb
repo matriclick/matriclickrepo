@@ -1,0 +1,8 @@
+<% @posts.each do |post| %>
+	<div class="post">
+		<%= image_tag post.post_images.first.photo.url(:thumb) if post.post_images.present?%>
+		<h3><%= link_to post.title, post_path(post) %></h3>
+		<span class="date"><%= l post.created_at.to_date %></span>
+		<%= simple_format crop_if_longer(post.content, 100) %><%= link_to " Leer más", products_and_services_catalog_index_path(:industry_category_ids => post.industry_category.id, :post_id => post.id, :watch => 'blog') %>
+	</div>
+<% end -%>

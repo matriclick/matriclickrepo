@@ -1,0 +1,3 @@
+<%= form_for @tip, :as => :tip, :url => ceremony_type_tips_path(@ceremony_type, @tip) do |f| %>
+	<%= render 'form_content', :f => f %>
+<% end %>

@@ -1,0 +1,18 @@
+<div class="titulos">
+	<%= t 'please_leave_your_comments' %>
+</div>
+
+<% if @nothing_to_show -%>
+	<%= render "layouts/nothing_to_show", :word => "reviews" %>	
+<% else -%>
+	<div class="box">
+		<% @supplier_accounts.each do |supplier_account| %>
+			<% if supplier_account.reviews.by_user_id(current_user.id).blank? %>
+				<div id="review_<%=supplier_account.id %>" class="review_box"><%= render "review_detail", :object => supplier_account %></div>
+			<% else %>
+				<div id="review_<%=supplier_account.id %>" class="reviewed_box"><%= render "reviews/review_info", :review => supplier_account.reviews.by_user_id(current_user.id).first %></div>
+		  <% end %>
+		<% end -%>
+		<div class="clear"></div>		
+	</div>
+<% end -%>

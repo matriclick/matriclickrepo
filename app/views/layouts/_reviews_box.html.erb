@@ -1,0 +1,32 @@
+
+<div id="reviews_box" style="<%= "background:#eee;" if reviews.blank? %>">
+	<div class="title">
+		<% unless reviews.blank? %>
+			<%= link_to "Comentarios al proveedor", supplier_reviews_path(reviews.first.reviewable.supplier, :public_url => reviews.first.reviewable.public_url) %>
+		<% else %>
+			Comentarios al proveedor
+		<% end %>
+	</div>
+	<% unless reviews.blank? %>
+	  <% for review in reviews.reverse[0..9] %>
+	    <div class="review">
+	    	<div class="stars_wrap" style="">
+					<div class="stars" style="background-color: #FCDD3B;width: <%= review.star_rating.value * 100 / 5  if review.star_rating.present? %>%;"></div>
+					<div class="stars" style="background-color: #dedede; width: <%= (100 - (review.star_rating.value * 100 / 5))  if review.star_rating.present? %>%;"></div>
+					<span class="date"><%= l review.created_at.to_date %></span>
+				</div>
+				<p><%= sanitize review.content %></p>
+	    </div>
+	  <% end %>
+		<% if reviews.count > 10 %>
+			<div class="review">
+				<p style="text-align:center;"><%= link_to "Ver más comentarios", supplier_reviews_path(reviews.first.reviewable.supplier, :public_url => reviews.first.reviewable.public_url) %></p>
+			</div>			
+		<% end %>
+	<% else %>
+	  <div class="review">
+	  	<p style="margin:200px auto;text-align:center;">¿Has asistido a algún matrimonio en el que utilizaran este servicio?<br><br> ¿Estuvo en tu matrimonio?<br><br> ¡Cuéntanos tus comentarios y ayuda a los novios que vienen a hacer de su matrimonio perfecto!</p>
+	  </div>
+	<% end %>
+	
+</div>

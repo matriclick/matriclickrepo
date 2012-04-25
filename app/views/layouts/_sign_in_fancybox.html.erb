@@ -1,0 +1,20 @@
+<div style="display:none"> <!-- fancy view -->
+		<div id="sign_in_fancybox" style="width:400px;padding:5px;">
+			<div>
+				<div class="titulos">
+					Si quieres seguir, debes registrarte.
+				</div>
+				<div class="help_tip">
+					Ahora estás navegando como usuario invitado (se crea automáticamente cuando ingresas sin registro) y hay cosas que no puedes hacer a menos que te registres. 
+					<br><br>
+					Además, no guardamos la información de cuentas de invitado así que te conviene crear una cuenta!
+					<br><br>
+					¡Te invitamos a registrarte!
+				</div>
+				<div class="holder">
+					<%= link_to t('sign_up'), user_profile_sign_in_user_path(), :method => :delete, :class => "button right" %>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+</div>

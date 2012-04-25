@@ -1,0 +1,66 @@
+<div class="right_link_in_catalog_page">
+	<%= link_to t('sell_your_dress'), "#sell_dress", :id => 'form_inline', :class => 'button' %> <%= session[:preview] == true ? (link_to t('back'), "#", :class => :button, :onclick => "return false;") : (link_to t('back'),  dresses_menu_path(), :class => :button) %>
+</div>
+
+<% @dresses.each do |dress| %>
+	<div class="dresses_index_box">
+		<div class="dresses_index_box_image shadow">
+			<% unless dress.dress_images.blank? %>
+				<%= link_to image_tag(dress.dress_images.first.dress.url(:index)), dress %>				
+			<% end %>
+		</div>		
+	</div>
+<% end %>
+
+<% if user_signed_in? %>
+	<% if current_user.admin? %>
+	<h1>Listing dresses</h1>
+
+	<table>
+	  <tr>
+			<th>ID</th>
+			<th>Vendedora</th>
+			<th>Teléfono</th>
+			<th>Email</th>
+	    <th>Descripción</th>
+	    <th>Precio</th>
+			<th>Independiente</th>
+	    <th colspan="3"></th>
+	  </tr>
+
+	<% @dresses.each do |dress| %>
+	  <tr>
+			<td><%= dress.id %></td>
+			<td><%= dress.seller_name %></td>
+			<td><%= dress.seller_phone_number %></td>
+			<td><%= dress.seller_email %></td>
+	    <td><%= crop_if_longer dress.description, 20 %></td>
+	    <td><%= number_to_currency dress.price %></td>
+			<td><%= "✔" if dress.independent %></td>
+	    <td><%= link_to 'Ver', dress %> <%= link_to 'Editar', edit_dress_path(dress) %> <%= link_to 'Borrar', dress, confirm: 'Are you sure?', method: :delete %></td>
+	  </tr>
+	<% end %>
+	</table>
+
+	<br />
+
+	<%= link_to 'New Dress', new_dress_path %>
+	
+	<% end %>	
+<% end %>
+<div style="display:none"> <!-- fancy view -->
+	<div id="sell_dress">
+		<div class="sell_dress_full_content" style="background: url(<%= asset_path "vende_tu_vestido.jpg" %>);">
+			<div class="sell_dress_titulo">
+				¡Vende tu vestido usado en Matriclick.com!
+			</div>
+			<div class="sell_dress_texto">
+				Para vender tu vestido, envía un correo a <b>novios@matriclick.com</b> con las fotos del vestido, los detalles, el precio y tus datos de contacto.<br /><br />
+				Si prefieres, nos puedes pasar tu vestido y nosotros lo cuidamos y vendemos*
+			</div>
+			<div class="sell_dress_texto_bottom">
+				*Para conocer los precios y planes envíanos un correo a <i>novios@matriclick.com</i>
+			</div>	
+		</div>
+	</div>
+</div>

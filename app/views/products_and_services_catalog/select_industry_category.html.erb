@@ -1,0 +1,9 @@
+<% for ic in @industry_categories %>
+	<div class="box_industry_categories">
+		<div class="image_industry_categories shadow">
+			<%= link_to (image_tag "industry_category/#{ic.name.downcase.gsub(/\s/,"_").gsub(/[\u0080-\u00ff]/,"")}.jpg"), products_and_services_catalog_index_path(:industry_category_ids => ic.id) %>
+		</div>
+		<% # FGM: SupplierAccounts SPECIAL FILTER %>
+		<span class="gray"><%= "(#{ic.supplier_accounts.approved.special_filter((current_user.user_account if user_signed_in?)).count}) " %></span><%= link_to ic.name, products_and_services_catalog_index_path(:industry_category_ids => ic.id) %>
+	</div>
+<% end %>

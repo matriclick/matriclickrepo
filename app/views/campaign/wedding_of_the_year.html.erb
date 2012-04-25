@@ -1,0 +1,70 @@
+<div class="campaign_section" style="margin-top:0px;">
+	<div style="margin:-20px 30px 10px 20px; float:left;">
+		<%= image_tag 'campaign/campaign_logo.png' %>
+		<br />
+		<span style="margin-left:20px;">
+			<%= link_to "¡Revisa las propuestas compitiendo por el gran premio!", campaign_how_to_win_path %>
+		</span>
+	</div> 
+	<div style="font-size:25px;color:#555;line-height:30px;margin-top:10px;margin-right:0px">
+		PARTICIPA Y GANA<br />HASTA $8 MILLONES
+	</div>
+	<div class="floatRight" style="margin:15px 60px 0px 10px;">
+		<div class="fb-like" data-href="<%= request.url %>" data-send="false" data-layout="button_count" data-width="50" data-show-faces="false" data-font="lucida grande"></div>
+	</div>
+	<div style="color:#aaa;font-style:italic;margin-top:15px;">
+		<strong>Todos</strong> los novios Matriclick pueden participar!
+	</div>
+</div>
+
+<div class="slider_width">
+	<div class="slider_campaign">
+		<div class="slider-item">
+	        <%= image_tag "campaign/slider-campana-premio.jpg" %>
+	    </div>
+
+	    <div class="slider-item">
+	        <%= image_tag "campaign/slider-campana-abonos.jpg" %>
+	    </div>
+	</div>
+</div>
+<div class="tiempo_campana">
+	 ¡Los ganadores de los abonos se conocerán la última semana de marzo y abril del 2012.<br />
+	 El gran ganador de "Tu matrimonio gratis" se dará a conocer la última de Mayo!
+</div>
+<div class="campaign_section">
+	<div class="campaign_title">
+		¿Cómo participar?
+	</div>
+	<div class="campaign_body">
+		Es <strong>rápido</strong> y <strong>simple</strong>, regístrate y sube, en no más de 800 caracteres, cómo pediste o te pidieron matrimonio.
+	</div>
+	
+	<% if user_signed_in? %>
+		<% if current_user.user_account.in_campaign %>
+			<div style="font-size:24px;color:#888;text-align:center;font-weight:bolder;">
+				<%= link_to "¡Ya estás participando!", user_profile_path, :target => :blank %>
+			</div>
+		<% else %>
+			<div style="width:175px;margin:auto;">
+					<%= link_to "Quiero participar!", edit_user_profile_path(:campaign => true), :class => :button_sign_in, :style => 'height:40px;display:table-cell;text-align:center;vertical-align:middle;' %>
+			</div>		
+		<% end %>
+	<% else %>
+	<div class="content_middle">
+		<%= render 'home/user_sign_up_form', :override_width => true, :campaign => true %>
+			<%- if devise_mapping.omniauthable? %>
+			  <%- devise_mapping.to.omniauth_providers.each do |provider| %>
+					<div class="no_register_sign_in">
+				    <%= link_to t('devise.views.shared._links.omniauth_authorize') + " #{provider.to_s.titleize}", omniauth_authorize_path(resource_name, provider) %>						
+					</div>
+			  <% end -%>
+			<% end -%>
+			<div class="no_register_sign_in">
+				<%= link_to t("sign_in_no_registration_apply"), blog_path %> 
+			</div>
+	</div>
+	<% end %>
+</div>
+<br />
+<br />

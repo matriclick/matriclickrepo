@@ -1,0 +1,37 @@
+<!-- Vista del detalle de Cuenta de proveedor -->
+<div class="right_link">
+	<%= link_to t('back'), administration_index_path(), :class => :button %>
+</div>
+
+<table>
+	<tr>
+		<th>Id</th>
+		<th>Supplier Id</th>
+		<th>Nombre Corporativo</th>
+		<th>Página Web</th>
+		<th>Nombre de fantasia</th>
+		<th>rut</th>
+		<th>Numero de Teléfono</th>
+		<th>Dirección</th>
+		<th>Aprobado por nosotros</th>
+		<th>Aprobado por proveedor</th>
+		<th>URL publica</th>
+		<th>Email enviado</th>
+		<th></th>
+	</tr>
+	<tr>
+		<td><%= @supplier_account.id %></td>
+		<td><%= @supplier_account.supplier_id %></td>
+		<td><%= @supplier_account.corporate_name %></td>
+		<td><%= @supplier_account.web_page %></td>
+		<td><%= @supplier_account.fantasy_name %></td>
+		<td><%= @supplier_account.rut %></td>
+		<td><%= @supplier_account.phone_number %></td>
+		<td><%= @supplier_account.address %></td>
+		<td><%= @supplier_account.approved_by_us %></td>
+		<td><%= @supplier_account.approved_by_supplier %></td>
+		<td><%= @supplier_account.public_url %></td>
+		<td><%= @supplier_account.mail_sent %></td>
+		<td><%= link_to 'editar', administration_edit_supplier_account_path(@supplier_account)  %></td>
+	</tr>
+</table>

@@ -1,0 +1,27 @@
+<% if user_signed_in? %>
+	<div class="center" style="text-align:center;">
+		<div id="fancy_successful">
+			<div class="title">
+				<%= "¿Quieres recibir información sobre este vestido?" %>			
+			</div>
+			<div class="message">
+				<%= "Te enviaremos un email con los datos de la vendedora para que se contacten." %>			
+			</div>
+		</div>	
+	</div>
+
+	<div class="holder" style="text-align:right;">
+		<%= link_to "¡Si quiero!", dresses_notify_request_path(@dress), method: :post, :class => :button %>
+	</div>	
+<% else %>
+  <div class="center" style="text-align:center;">
+		<div id="fancy_successful">
+			<div class="title">
+				<%= "Ups!... Necesitas ingresar para poder cotizar vestidos" %>			
+			</div>
+			<div class="message">
+				<%= "Puedes ingresar " %><%= link_to t("here").downcase, root_path %>			
+			</div>
+		</div>	
+	</div>
+<% end %>

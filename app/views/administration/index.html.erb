@@ -1,0 +1,42 @@
+<!-- Listado de cuentas de proveedores -->
+
+<table>
+	<tr>
+		<th>id</th>
+		<th>email</th>
+		<th>supplier account id</th>
+		<th>Nombre Corporativo</th>
+		<th>Nombre de Fantasía</th>
+		<th>Aprovado por nosotros</th>
+		<th>Aprovado por el Proveedor</th>
+		<th></th>
+		<th></th>
+		<th></th>
+		<th></th>
+	</tr>
+	<% @suppliers.each do |supplier| %>
+		<tr>
+			<td><%= supplier.id %></td>
+			<td><%= supplier.email %></td>
+			<% if supplier.supplier_account.present? -%>
+			  <td><%= supplier.supplier_account.id %></td>
+			  <td><%= supplier.supplier_account.corporate_name %></td>
+			  <td><%= supplier.supplier_account.fantasy_name %></td>
+			  <td><%= supplier.supplier_account.approved_by_us %></td>
+			  <td><%= supplier.supplier_account.approved_by_supplier %></td>
+			<% else -%>
+			  <td>N/A</td>
+			  <td>N/A</td>
+			  <td>N/A</td>
+			  <td>N/A</td>
+			  <td>N/A</td>
+			<% end -%>
+			<% unless supplier.supplier_account.blank? %>
+				<td><%= link_to 'ver detalle cuenta', administration_show_supplier_account_path(supplier.supplier_account)  %></td>
+				<td><%= link_to 'ver productos', administration_show_supplier_products_path(supplier.supplier_account)  %></td>
+				<td><%= link_to 'ver servicios', administration_show_supplier_services_path(supplier.supplier_account)  %></td>
+			<% end %>
+			<td><%= link_to t('destroy'), administration_destroy_supplier_path(supplier), :method => :delete, confirm: t('are_you_sure') %></td>
+		</tr>
+	<% end %>
+</table>

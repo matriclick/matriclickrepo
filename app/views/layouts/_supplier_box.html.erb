@@ -1,0 +1,10 @@
+<div class="product_box">
+	<div class="product_image center">
+		<%= link_to (image_tag supplier_account.image.url(:smaller)),supplier_products_and_services_path(supplier_account.supplier_id, :public_url => supplier_account.public_url), :title => t('show') %>
+	</div>
+	<div class="product_name"><%= crop_if_longer(supplier_account.fantasy_name, 21) %></div>
+<!--	
+	<div class="product_stars"><br /></div>
+	<div class="product_links">
+	</div>-->
+</div>

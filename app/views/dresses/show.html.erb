@@ -1,0 +1,75 @@
+<div class="right_link_in_catalog_page">
+	<%= link_to t('sell_your_dress'), "#sell_dress", :id => 'form_inline', :class => 'button' %> <%= session[:preview] == true ? (link_to t('back'), "#", :class => :button, :onclick => "return false;") : (link_to t('back'),  dresses_path(), :class => :button) %>
+</div>
+
+<div class="titulos">¡Novias venden sus vestidos!</div>
+<div class="box relative">
+	<div id="left_arrow_dresses">
+		<%= link_to_cycle @dress, :prev, css_class: "arrow" %>
+	</div>
+	<div class="centered_wrapper">
+		<div class="centered_positioner">
+			<div class="centered_content">
+				<div class="dress_box">
+					<div class="image">
+						<% unless @dress.dress_images.blank? %>
+							<%= link_to image_tag(@dress.dress_images.first.dress.url(:big)), @dress.dress_images.first.dress.url(:original), :class => :fancybox %>
+						<% else %>
+							"No hay imágenes"
+						<% end %>
+					</div>
+					<% unless (imgs = @dress.dress_images.without_cover).blank? %>
+					<div class="images">
+						<% for image in imgs %>
+							<%= link_to image_tag(image.dress.url(:tiny)), image.dress.url(:original), :class => :fancybox, :rel => :gallery  %>
+						<% end %>
+					</div>								
+					<% end %>
+					<div class="description">
+						<% unless @dress.description.blank? %>
+							<%= raw @dress.description.gsub(/\n/, '<br/>') %>
+						<% end %>
+						<% unless @dress.price.blank? %>
+							<br>
+							<%= "Precio: #{number_to_currency @dress.price}" %>
+						<% end %>
+					</div>
+					<div class="action">
+						<% if current_user.role_id == 3 -%>
+							<%= link_to "Cotizar", "#sign_in_fancybox" , :id => "form_inline", :class => "button" %>
+							<%= render "layouts/sign_in_fancybox" %>
+						<% else -%>
+							<%= link_to "Cotizar", dresses_dress_request_path(@dress), :id => :inline, :class => 'button' %>
+						<% end -%>
+					</div>
+				</div>
+			</div>
+		</div>			
+	</div>
+	<div id="right_arrow_dresses">
+		<%= link_to_cycle @dress, :next, css_class: "arrow" %>		
+	</div>
+</div>
+<div style="display:none;">
+	<div id="soon" style="width:250px; height:100px;" class="center">
+		<div class="titulos" style="text-align:center;display:table-cell;vertical-align:middle;height:100px;width:250px;">
+			¡Próximamente!
+		</div>
+	</div>
+</div>
+<div style="display:none"> <!-- fancy view -->
+	<div id="sell_dress">
+		<div class="sell_dress_full_content" style="background: url(<%= asset_path "vende_tu_vestido.jpg" %>);">
+			<div class="sell_dress_titulo">
+				¡Vende tu vestido usado en Matriclick.com!
+			</div>
+			<div class="sell_dress_texto">
+				Para vender tu vestido, envía un correo a <b>novios@matriclick.com</b> con las fotos del vestido, los detalles, el precio y tus datos de contacto.<br /><br />
+				Si prefieres, nos puedes pasar tu vestido y nosotros lo cuidamos y vendemos*
+			</div>
+			<div class="sell_dress_texto_bottom">
+				*Para conocer los precios y planes envíanos un correo a <i>novios@matriclick.com</i>
+			</div>	
+		</div>
+	</div>
+</div>

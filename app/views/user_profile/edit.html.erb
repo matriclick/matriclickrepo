@@ -1,0 +1,200 @@
+<div class="right_link">
+	<%= link_to t('cancel'), user_profile_path(), :class => :button %>
+</div>
+<%= nested_form_for @user_account, :url => update_user_profile_path, :validate => true, :multipart => true do |f| %>
+
+
+	<!-- CAMPAIGN STUFF -->
+	<% if @enable_campaign %>
+	
+	<% if @user_account.errors.any? %>
+		<div id="error_explanation">
+			<h2><%= @user_account.errors.count > 1 ? t("activerecord.errors.template.header.other") : t("activerecord.errors.template.header.one") %>:</h2>
+			<ul>
+				<li><%= "Por favor revisa los datos más abajo..." %></li>
+			</ul>
+		</div>
+	<% end %>
+	
+		<div id="campaign_user_profile" class="campaign_section" style="margin-top:0px;border-bottom:none;margin-bottom:0px;">
+			<%= link_to image_tag('campaign/campaign_logo.png'), campaign_wedding_of_the_year_path, :target => :blank, :style => 'margin:10px 50px 10px 60px;float:left' %>
+			
+				<div style="padding-top:30px;font-size:25px;color:#555;line-height:30px;margin-top:10px;margin-right:0px">
+					PARTICIPA Y GANA<br />HASTA $8 MILLONES
+				</div>
+			
+		</div>
+		<div class="titulos">
+			¡Gánate tu matrimonio! <%= content_tag :span, (@user_account.in_campaign ? "(¡Ya estás participando!)" : "(¡Todavía no estás participando!)"), :style => "font-size:12px;color:#777;text-align:center;font-weight:normal;"%>
+		</div>
+		<div class="box" style="background:#F6FCFF;">
+			<div class="help_tip">
+				Llena los datos para participar!
+			</div>
+			<%= f.fields_for :campaign_user_account_info do |form| %>
+			<table class="invisible form_section">
+				<tr class="title">
+					<td>
+						1. Sube una foto
+						<div class="help_tip" style="font-weight:400;">
+							Puedes subir cualquier foto que para ustedes signifique algo; ya sea un paisaje, lugar de veraneo, de ustedes, el anillo, etc. Si lo hacen <strong>su propuesta se verá más entretenida y los ayudará a obtener más votos!</strong>
+						</div>
+					</td>
+				</tr>
+				<tr class="content">
+					<% if (img = form.object.campaign_user_image).present? %>
+						<td><%= image_tag img.url(:big) %></td>
+					<% end %>
+					<td>
+						<div class="help_tip" style="font-weight:400;">No excedas 1MB. Aceptamos JPG y PNG</div>
+						<%= form.file_field :campaign_user_image %>
+					</td>
+				</tr>
+			</table>
+			<table class="invisible form_section">
+				<tr class="title">
+					<td>2. Cuéntanos cómo fue tu propuesta de matrimonio <%= mark_required(form.object, :description) %></td>
+				</tr>
+				<tr class="content">
+					<td><%= form.text_area :description, :size => "10x5" %>
+						<div class="limit_count">
+							Te quedan <span id="limit_count">800</span> caracteres.
+						</div>
+					</td>
+				</tr>
+			</table>
+			<% end %>
+			<table class="invisible form_section">
+				<tr class="title">
+					<td>3. ¿Cuándo se casan (aproximadamente)?</td>
+				</tr>
+				<tr>
+					<td><%= f.label :wedding_tentative_date %><br />
+			      <%= f.date_select :wedding_tentative_date %></td>
+			  </tr>
+			</table>
+			<table class="invisible form_section">
+				<tr class="title">
+					<td><%="4. " + t('trading_houses') %></td>
+				</tr>
+				<%= f.fields_for :user_account_trading_house do |user_account_trading_house| %>
+					<tr class="content">
+					  <td><%= label_tag t("trading_house") %><br/>
+					  	<%= user_account_trading_house.collection_select :trading_house_id, @trading_houses, :id, :name, :prompt => true %>
+					  </td>
+						<td><%= label_tag t("trading_house_code") %><br/>
+							<%= user_account_trading_house.text_field :trading_house_code %>
+					  </td>
+					</tr>
+				<% end %>				
+			</table>
+			
+			<div class="half">
+				<%= f.fields_for :groom do |form| %>
+				<table class="invisible form_section">
+					<tr class="title"> 
+						<td>5. Datos del Novio</td>
+					</tr>
+					<tr class="content">
+		        <td><%= form.label :name %><%= mark_required(form.object, :name) %><br />
+		        <%= form.text_field :name %></td>
+		      </tr>
+		      <tr class="content">
+		        <td><%= form.label :lastname_p %><%= mark_required(form.object, :lastname_p) %><br />
+		        <%= form.text_field :lastname_p %></td>
+		      </tr>
+		      <tr class="content">
+		        <td><%= form.label :lastname_m %><%= mark_required(form.object, :lastname_m) %><br />
+		        <%= form.text_field :lastname_m %></td>
+		      </tr>
+					<tr class="content">
+		        <td><%= form.label :email%><%= mark_required(form.object, :email) %><br />
+		        <%= form.text_field :email %></td>
+		      </tr>
+		      <tr class="content">
+		        <td><%= form.label :rut %><%= mark_required(form.object, :rut) %><br />
+		        <%= form.text_field :rut, :onblur => 'format_rut(this)' %></td>
+		      </tr>
+				</table>
+				<% end %>
+			</div>
+			<div class="half">
+				<%= f.fields_for :bride do |form| %>
+				<table class="invisible form_section">
+					<tr class="title"> 
+						<td>6. Datos de la Novia</td>
+					</tr>
+					<tr class="content">
+		        <td><%= form.label :name %><%= mark_required(form.object, :name) %><br />
+		        <%= form.text_field :name %></td>
+		      </tr>
+		      <tr class="content">
+		        <td><%= form.label :lastname_p %><%= mark_required(form.object, :lastname_p) %><br />
+		        <%= form.text_field :lastname_p %></td>
+		      </tr>
+		      <tr class="content">
+		        <td><%= form.label :lastname_m %><%= mark_required(form.object, :lastname_m) %><br />
+		        <%= form.text_field :lastname_m %></td>
+		      </tr>
+					<tr class="content">
+		        <td><%= form.label :email%><%= mark_required(form.object, :email) %><br />
+		        <%= form.text_field :email %></td>
+		      </tr>
+		      <tr class="content">
+		        <td><%= form.label :rut %><%= mark_required(form.object, :rut) %><br />
+		        <%= form.text_field :rut, :onblur => 'format_rut(this)' %></td>
+		      </tr>
+				</table>
+				<% end %>
+			</div>
+			<div class="clear"></div>
+			<div class="holder clear">
+				<%= f.submit "Listo",:class => "button" %> <%= image_tag "loading.gif", :class => :select_loading, :style => "display:none;" %>
+			</div>
+		</div>
+		<br/>
+	<% end %>
+	<!-- END CAMPAIGN STUFF -->
+
+	<div class="titulos">
+		<%= t('wedding_info') %>
+	</div>
+	<div class="box">
+		
+		<% if @user_account.errors.any? and !@enable_campaign %>
+			<div id="error_explanation">
+				<h2><%= @user_account.errors.count > 1 ? t("activerecord.errors.template.header.other") : t("activerecord.errors.template.header.one") %>:</h2>
+				<ul>
+					<% @user_account.errors.full_messages.each do |msg| %>
+					<li><%= msg %></li>
+					<% end %>
+				</ul>
+			</div>
+		<% end %>
+		
+		<!-- FGM: Enable when campaign is up! -->
+		<% if @enable_campaign %>
+			<%= render "user_profile/user_account_fields", :f => f, :hide_non_campaign_fields => @enable_campaign %>
+			<br />
+			<div class="half">
+				<%= render "groom_bride_fields", :f => f, :is_groom => true, :hide_non_campaign_fields => @enable_campaign %>
+			</div>
+			<div class="half">
+				<%= render "groom_bride_fields", :f => f, :is_groom => false, :hide_non_campaign_fields => @enable_campaign %>
+			</div>
+		<% else %>
+			<%= render "user_profile/user_account_fields", :f => f %>
+			<br />
+			<div class="half">
+				<%= render "groom_bride_fields", :f => f, :is_groom => true %>
+			</div>
+			<div class="half">
+				<%= render "groom_bride_fields", :f => f, :is_groom => false %>
+			</div>
+		<% end %>	
+				
+		<div class="holder clear">
+			<%= f.submit :class => "button" %> <%= image_tag "loading.gif", :class => :select_loading, :style => "display:none;" %>
+		</div>
+	</div>
+<% end %>

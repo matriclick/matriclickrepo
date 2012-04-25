@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:fb="http://ogp.me/ns/fb#">
+
+		<% # El tag head va dentro del render %>
+        <!-- Se comienza con head para completar el tag en application -->
+        <% if controller_name == "posts" && action_name == "show" %>
+    <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+      <meta property="fb:app_id"      content="199668766763277" />
+      <meta property="og:type"        content="article" />
+      <meta property="og:url"         content= "<%= request.url %>" />
+      <meta property="og:title"       content= "<%= @post.title %>" />
+      <meta property="og:description" content= "<%= @post.content.blank? ? "-" : @post.content.to_s.truncate(40) %>" />
+      <% @post.post_images.each do |image| %>
+          <meta property="og:image"       content= "<%= root_url[0..root_url.size-2] + image.photo.url %>" />
+      <% end %>
+
+
+
+<% elsif controller_name == "campaign" && action_name == "user_story"%>
+    <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#">
+      <meta property="fb:app_id"      content="199668766763277" />
+      <meta property="og:type"        content="article" />
+      <meta property="og:url"         content= "<%= request.url %>" />
+      <meta property="og:title"       content= "<%= (@campaign_user_account.present? && @campaign_user_account.user_account.bride.name.present? && @campaign_user_account.user_account.groom.name.present?) ? "Propuesta de "+ @campaign_user_account.user_account.bride.name+ " y "+ @campaign_user_account.user_account.groom.name : "-" %>" />
+      <meta property="og:description" content= "<%= (@campaign_user_account.present? && @campaign_user_account.description.present?) ? @campaign_user_account.description.to_s.truncate(40) : "-" %>" />
+      <meta property="og:image"       content= "<%= @campaign_user_account.campaign_user_image.present? ? root_url[0..root_url.size-2] + @campaign_user_account.campaign_user_image.url : "-" %>" />
+
+
+<% else %>
+    <head>
+      <meta property="og:type" content="website" />
+      <% if request.url.include? 'user_story' -%>
+          <meta property="og:url" content="<%= request.url %>/" />
+      <% end -%>
+      <meta property="og:title" content="Matriclick" />
+      <meta property="og:image" content="http://matriclick.com/images/emails/logo_matriclick_sin_caja.png" />
+      <meta property="og:site_name" content="Matriclick.com" />
+      <meta property="fb:app_id" content="199668766763277" />
+
+<% end %>
+
+
+<title>
+  <% title("Matriclick #{"| Proveedores" if supplier_signed_in?}", false) %>
+  <%= content_for?(:title) ? yield(:title) : "Untitled" %>
+</title>
+<%= stylesheet_link_tag("application") %>
+<%= stylesheet_link_tag("tipTip") %>
+<%= javascript_include_tag('application') %>
+<%= javascript_include_tag('http://maps.googleapis.com/maps/api/js?sensor=false') if @show_map %>
+<%= csrf_meta_tag %>
+
+  </head>
+  <% (@show_map || false) ? (@msg = "initialize(#{@service.latitude},#{@service.longitude}, '#{@service.address}')") : nil  %>
+  <body onload="<%= @msg %>">
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=199668766763277";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+		
+		<% if @supplier_layout %>
+			<%= render 'layouts/supplier_layout' %>
+		<% else %>
+			<%= render 'layouts/normal_layout' %>
+		<% end %>
+		<%= render "layouts/feedback_tab" unless params[:yield_fancybox] %>
+  </body>
+</html>

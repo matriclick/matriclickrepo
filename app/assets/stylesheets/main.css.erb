@@ -1,0 +1,284 @@
+@charset "UTF-8";
+/* CSS Document */
+
+html {
+	font-family:helvetica, arial, sans-serif;
+	overflow-y:scroll;
+	background:#fff;
+}
+body {
+	margin:0;
+}
+/* ------------------------ CSS Global ------------------------ */
+.text_center {
+	text-align:center;
+}
+.h2 {
+	font-size:30px;
+	color:#0071BC;
+}
+.logo_matri {
+	position:relative;
+	top:45px;
+	width:175px;
+}
+.logo_matri img {
+	border:0px;
+}
+.logo_matri_supplier {
+	float:left;
+	margin-top:10px;
+	width: 171px;
+	height: 70px;
+}
+.logo_matri_supplier img {
+	border:0px;
+}
+.clear {
+	clear:both;
+}
+.bold {
+	font-weight:bold;
+}
+.shadow {
+	-moz-box-shadow: 0 0 4px 0px #999;
+	-webkit-box-shadow: 0 0 4px 0px #999;
+	box-shadow: 0 0 4px 0px #999;
+	behavior: url('/PIE.htc');
+}
+.box_nine_six_cero {
+	width:960px;
+}
+.box_nine_eight_cero {
+	width:980px;
+}
+.right {
+	float:right;
+}
+.left {
+	float:left;
+}	
+.h4 {
+	font-size:12px;
+	margin-bottom:2px;
+	color:#444;
+}
+a {
+	color:#0088CC;
+	text-decoration:none;
+}
+a:hover {
+	color:#0088CC;
+	text-decoration:underline;
+}
+.center {
+	margin-left:auto;
+	margin-right:auto;
+}
+.old_image {
+	margin:5px 10px 5px 0px;
+	width:40px;
+	height:40px;
+	float:left;
+	font-size:9px;
+}
+.image_field {
+	float:left;
+	font-size:12px;
+	top:7px;
+}
+/* ------------------------ End CSS Global ------------------------ */
+/* ------------------------ Application CSS ------------------------ */
+#user_bar {
+	margin-bottom:110px;
+	width:100%;
+	height:35px;
+	background:#4D4D4D;
+	position:relative;
+	z-index:2;
+}
+#user_options {
+	float:right;
+	margin-top:7px;
+	font-size:12px;
+	font-weight: bold;
+}
+#user_options a {
+	color:#ddd;
+	text-decoration:none;
+}
+#user_options a:hover {
+	color:white;
+}
+#validation_link{
+	float:left;
+	font-size:15px;
+	font-weight: bold;
+	margin-right:319px;
+	color:#ddd;
+}
+#validation_label{
+	float:left;
+	font-size:15px;
+	font-weight: bold;
+	margin-right:120px;
+	color:#ddd;
+}
+.search_bar {
+	width:100%;
+	height:80px;
+	background:#fff;
+}
+.full_content {
+	width:980px;
+	border:solid 3px #fff;
+	background:#FFF;
+	margin-top:20px;
+	-webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+.full_content_inapp {
+	width:980px;
+	position:relative;
+	z-index:100;
+	border:solid 3px #fff;
+	margin-top:20px;
+	background:white;
+	-webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+	behavior: url('/PIE.htc');
+}
+.left_menu {
+	width:139px;
+	float:left;
+}
+.main_content {
+	width:806px;
+	float:left;
+	border-left: solid 1px #ccc;
+	padding: 15px;
+	min-height:568px;
+}
+.footer {
+	width:100%;
+	margin:30px 0 0px 0;
+	background:#ddd;
+}
+.sombra_footer {
+	background:url(<%= asset_path 'sombra_footer.png' %>);
+	width:100%;
+	height:28px;
+	position:relative;
+	top:55px;
+}
+.footer_box {
+	color:#444;
+}
+.browsers {
+	width:100%;
+	height:30px;
+	background:#ddd;
+	color:#888;
+	text-align:center;
+}
+.iconos_footer {
+	position:relative;
+	top:3px;
+	padding:0 1px 0 4px;
+}
+/* ------------------------ End Application CSS ------------------------ */
+/* ------------------------ Product Box CSS ------------------------ */
+
+.product_box {
+	float:left;
+	border:solid 1px #ccc;
+	padding:10px 10px 10px 8px;
+	font-size:11px;
+	background:#F5F5F5;
+	margin:15px 19px 10px 10px;
+	width:140px;
+	text-align:center;
+	/*min-height:170px;*/
+}
+.product_box_last {
+	float:left;
+	border:solid 1px #ccc;
+	padding:10px 10px 10px 8px;
+	font-size:12px;
+	background:#F5F5F5;
+	margin:15px 0 0 0;
+	text-align:center;
+}
+.product_image {
+	width:140px;
+	height:110px;
+	text-align:center;
+	border:solid 1px #ddd;
+	background:#fff;
+	vertical-align:middle;
+	display: table-cell;
+}
+.product_name {
+	color:#222;
+	padding:5px 0 0 0;
+}
+.product_category {
+	color:#888;
+	padding:2px 0 0 0;
+	font-size:11px;
+}
+.product_supplier {
+	color:#888;
+	padding:2px 0 0 0;
+}
+.product_links {
+	color:#999;
+	height:15px;
+}
+.link_proveedor {
+	color:#666;
+	font-size:11px;
+}
+ul.footer_links {
+	font-size:12px;
+	line-height:18px;
+	margin:0px;
+	padding:15px 20px;
+}
+li.product_links_li {
+	list-style:none;
+	float:left;
+	margin-right:5px;
+	height:15px;
+}
+li.pestana, li.pestana_on {
+	float:left;
+	width:auto;
+	list-style:none;
+	padding:12px ;
+	border:solid 1px #ccc;
+	background:#FFF;
+}
+li.pestana_on {
+	background:#dedede;
+}
+.small_image_box {
+	float:left;
+	margin:10px;
+	padding:10px;
+	border:1px solid #ddd;
+	background-color:white;
+	min-height:153px;
+}
+
+.budgets_box{
+	float:right;
+	margin-left:100px;
+	width: 300px;
+}

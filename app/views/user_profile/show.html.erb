@@ -1,0 +1,146 @@
+<p id="notice"><%= notice %></p>
+<div class="right_link">
+	<% if current_user.role_id == 3 -%>
+		<%= link_to t('edit'), "#sign_in_fancybox" , :id => "fancybox_form", :class => "button" %>
+		<%= render "layouts/sign_in_fancybox" %>
+	<% else -%>
+		<%= link_to t('edit'), edit_user_profile_path(), :class => :button %>
+	<% end -%>
+</div>
+
+<% if @enable_campaign %>
+	<div class="titulos">
+		¡Gánate tu matrimonio!
+		<div class="help_tip" style="font-weight:400;">La pareja ganadora de los 8 millones será designada por un comité compuesto por integrantes Matriclick y Novios Paris, quienes serán los encargados de elegir "La mejor propuesta del año".</div>
+	</div>
+	<div class="box">
+		<div id="campaign_user_profile" class="campaign_section" style="margin-top:0px;border-bottom:none;margin-bottom:0px;">
+			<%= link_to image_tag('campaign/campaign_logo_profile.jpg'), campaign_wedding_of_the_year_path, :target => :blank, :style => 'margin:10px 40px 10px 60px;float:left' %>
+			<div style="padding-top:30px;font-size:25px;color:#555;line-height:30px;margin-top:10px;margin-right:0px">
+					PARTICIPA Y GANA<br />HASTA $8 MILLONES
+				</div>
+		</div>
+		<div class="clear"></div>
+		<% if current_user.user_account.in_campaign %>
+			<div>
+				<div style="float:left;margin-right:20px;">
+					<% if current_user.user_account.campaign_user_account_info.campaign_user_image.present? %>
+						<% if (img = current_user.user_account.campaign_user_account_info.campaign_user_image) %>
+							<%= image_tag img.url(:index) %>
+						<% end %>					
+					<% end %>
+				</div>
+				<div>
+					<%= sanitize current_user.user_account.campaign_user_account_info.description.gsub(/\n/, '<br>'), :tags => %w(br) %>
+				</div>
+			</div>
+			<div class="clear"></div>
+			<div style="font-size:24px;color:#999;text-align:center;font-weight:bolder;margin:10px auto;">¡Ya estás participando!</div>
+		<% else %>
+			<% if current_user.role_id == 3 -%>
+				<div style="width:175px;margin:auto;">
+					<%= link_to "Quiero participar!", '#sign_in_fancybox', :id => "fancybox_form", :class => :button_sign_in, :style => 'height:40px;display:table-cell;text-align:center;vertical-align:middle;' %>
+				</div>
+				<%= render "layouts/sign_in_fancybox" %>
+			<% else -%>
+				<div style="width:175px;margin:auto;">
+						<%= link_to "Quiero participar!", edit_user_profile_path(:campaign => true), :class => :button_sign_in, :style => 'height:40px;display:table-cell;text-align:center;vertical-align:middle;' %>
+				</div>
+			<% end -%>
+		<% end %>
+	</div>
+	<br/>
+<% end %>
+
+<div class="titulos">
+	<%= t 'our_profile' %>
+</div>
+<div class="box">
+	<%= render "groom_bride_info", :person => @groom %>
+	<%= render "groom_bride_info", :person => @bride %>
+	
+	<div class="half_15">
+		<table class="floatLeft textAlignLeft marginLeft10 invisible">
+			<tr>
+				<td>
+					<div class="meter-wrap">
+						<div class="meter-value" style="background:url(<%= asset_path('progress_bar.jpg') %>) ; width: <%= @profile_average %>%;"></div>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td><i style="font-size:10px;"><%=@profile_average %>% del perfil completado</i></td>
+			</tr>
+		</table>
+	</div>
+	<div class="clear"></div>
+</div><br/>
+
+<div class="box">
+	<table class="invisible">
+		<tr>
+			<td>
+				<% if @user_account.user_account_image.blank? -%>
+					<%= image_tag "novios.png", :size => "120x120" %>
+				<% else -%>
+					<%= image_tag @user_account.user_account_image.couple.url(:normal) %>
+				<% end -%>
+			</td>
+			<td>
+				<% if !@groom.name.blank? and !@bride.name.blank? %>
+					<span class="especial_bold"><%= @bride.name %> y <%= @groom.name %> </span><br/>
+				<% end %>
+				<% unless @user_account.wedding_tentative_date.blank? %>
+					Nos casamos el <%= l(@user_account.wedding_tentative_date, :format => :long) %><br/>
+				<% end %>
+				<% unless @user_account.wedding_city.blank? %>
+					<%= @user_account.wedding_city %>
+				<% end %>
+			</td>
+			<td class ="day_counter"><%= @user_account.wedding_tentative_date.blank? ? "" : label_tag("¡"+(@user_account.wedding_tentative_date - Date.today).to_i.to_s+" días!") %> </td>
+		</tr>
+	</table>
+</div><br/>
+
+<div class="right_link">
+	<% if user_signed_in? -%>
+		<% if current_user.role_id == 3 and current_user.is_owner %>
+			<%= link_to t('new'), "#sign_in_fancybox" , :id => "fancybox_form", :class => "button" %>
+			<%= render "layouts/sign_in_fancybox" %>
+		<% else -%>
+			<%= link_to t('new'), user_profile_add_user_path(), :class => :button if current_user.is_owner %>
+		<% end -%>
+	<% else -%>
+		<%= link_to t('new'), user_profile_add_user_path(), :class => :button if current_user.is_owner %>
+	<% end -%>
+	
+</div>
+<div class="titulos">
+		<%= 'Personas que pueden ver mi perfil'%>
+</div>
+
+<div class="box">
+	<table class="invisible">
+		<tr>
+			<th><%= t 'email' %></th>
+			<th></th>
+				<th><%= t 'options' %></th>
+		</tr>
+		<% @users.each do |user|%>
+			<tr>
+				<td><%= user.email%></td>
+				<td><%= user.is_owner ? t('is_owner') : t('is_invited')%></td>
+				<% if current_user.is_owner || current_user.id == user.id %>
+					<td>
+						<% if current_user.id == user.id %>
+							<%= current_user.is_owner ? (link_to t('edit'), edit_user_registration_path) : (link_to t('edit'), user_profile_edit_user_path(user)) %>
+						<% end %>
+						<% unless user.is_owner %>
+							<%= link_to t('delete'), user_profile_destroy_user_path(user), :method => :delete, confirm: t('are_you_sure') %>
+						<% end %>
+					</td>
+				<% end %>
+			</tr>
+		<% end %>
+	</table>
+</div>

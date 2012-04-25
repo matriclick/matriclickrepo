@@ -1,0 +1,42 @@
+<div class="sombra_footer">
+</div>
+<div class="footer">
+	<div class="box_nine_eight_cero center">
+	<div class="footer_box left">
+		<ul class="footer_links">
+			<li class="h4 bold">INFO</li>
+			<li><%= link_to t('about_us'), company_path %></li>
+			<li><%= link_to t('work_with_us'), work_with_us_path %></li>
+			<li><%= link_to t('press'), press_path %></li>
+		</ul>	
+	</div>
+	<div class="footer_box left">
+		<ul class="footer_links">
+			<li class="h4 bold">AYUDA</li>
+			<li><%= link_to t('Preguntas Frecuentes'), faq_path %></li>
+			<li><%= link_to t('contact'), new_contact_path %></li>
+			<li><%= link_to t('terms_of_use'), terms_path %></li>		
+		</ul>	
+	</div>
+	
+	<div class="footer_box left">
+		<ul class="footer_links">
+			<li class="h4 bold">SÍGUENOS</li>
+			<li><%= link_to t('Facebook'), 'http://www.facebook.com/pages/Matriclickcom/272699936103994' %></li>
+			<li><%= link_to t('Twitter'), 'http://twitter.com/#!/Matriclick' %></li>
+		</ul>
+	</div>
+	<div class="footer_box right">
+		<ul class="footer_links">
+			<li class="h4 bold">PROVEEDORES</li>
+			<li><%= supplier_signed_in? ? (link_to "Mi Página", supplier_home_path ) : (link_to t('sign_in'), new_supplier_session_path) %></li>
+			<li><%= link_to "Vídeo Tutorial", "http://www.youtube.com/watch?v=sSbEF3aQJHc&amp;feature=player_embedded&amp;hd=1", :id => :tutorial_video %></li>
+			<li><%= link_to t('contact'), new_contact_path %></li>
+		</ul>
+	</div>
+	<div class="clear"></div>
+	</div>
+</div>
+<div class="browsers small">
+	<i>Works better in <%= image_tag 'ico_footer_chrome.png', :alt => 'chrome', :class => :iconos_footer %><%= link_to 'Chrome', 'http://www.google.com/chrome?hl=es', :target => :blank %></i> -<%= image_tag 'ico_footer_firefox.png', :alt => 'firefox', :class => :iconos_footer %><%= link_to 'Firefox', 'http://www.mozilla.org/es-ES/firefox/new/', :target => :blank %></i>
+</div>

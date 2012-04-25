@@ -1,0 +1,31 @@
+$(function(){
+	$("div#foto_video").hover(function(){
+		$(this).find(".showable").show();
+		$(this).find(".hideable").hide();
+
+	}, function(){
+		$(this).find(".hideable").show();
+		$(this).find(".showable").hide();
+	});
+});
+
+$(document).ready(function(){
+    $('.slider').advancedSlider({
+			timerRadius: '5',
+			shadow: false,
+			slideshowControls: true,
+			navigationButtons: false,
+			skin: 'round',
+			captionSize: 500/6,
+			captionBackgroundColor: '#ffffff',
+			captionBackgroundOpacity: 0.8,
+	});
+	    $('.slider_campaign').advancedSlider({
+				timerRadius: '5',
+				shadow: false,
+				slideshowControls: true,
+				navigationButtons: false,
+				skin: 'round',
+				width: 700
+					});
+});

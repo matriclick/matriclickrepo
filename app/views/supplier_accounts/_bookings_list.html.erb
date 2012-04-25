@@ -1,0 +1,31 @@
+<div class="box">
+	<% if bookings.present? %>
+		<div class="help_tip">
+			<%= t 'related_confirm_warning' %>
+		</div>
+		<table class="list">
+			<tr>
+				<th>
+					<%= t "details" %>
+				</th>
+				<th class="width20">
+					<%= t "options" %>
+				</th>
+			</tr>
+			<% bookings.each do |booking| %>
+				<tr id="bookings_list_row_<%= booking.id %>" class="<%= 'unread' unless booking.read_status(:by => :supplier) %> <%= cycle("cl_light_gray","") %>">
+					<%= booking.status == Booking::STATUS[:custom] ? render("supplier_accounts/custom_bookings_list_row", :custom_booking => booking, :show => show) : render("supplier_accounts/bookings_list_row", :booking => booking, :show => show, :remote => remote) %>
+				</tr>
+			<% end %>
+		</table>
+		
+		<% if paginate -%>
+			<% if bookings.total_pages > 1 %>
+				<div class="apple_pagination">
+					<%= will_paginate bookings, :container => false %>
+				</div>
+			<% end %>
+		<% end -%>
+		
+	<% end %>
+</div>

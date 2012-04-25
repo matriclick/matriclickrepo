@@ -1,0 +1,51 @@
+<%= content_for :products_and_services_page_in_content do %>
+	<h1>Descripción</h1>
+	<% unless @description.blank? %>
+	<div>
+		<%= sanitize @description.gsub(/\n/, '<br/>'), :tags => %W(br) %>
+	</div>
+	<% else %>
+		<div class="help_tip">
+			El proveedor no ha definido una descripción.
+		</div>	
+	<% end %>
+	
+	<h1>Multimedia</h1>
+	<% unless @object.videos.blank? -%>
+		<% @object.videos.each do |v| %>
+		<iframe width="191" height="180" src="http://www.youtube.com/embed/<%= v.url_code%>" frameborder="0" allowfullscreen></iframe>
+		<% end %>
+	<% else -%>
+		<div class="help_tip">
+			El proveedor no ha agregado multimedia.
+		</div>
+	<% end %>
+
+	<% unless @schedule.blank? %>
+		<% if @schedule.has_enabled_days? %>
+			<h1>Horarios</h1>
+				<table class="small_schedules">
+					<tr>
+						<th><%= t 'day' %></th>
+						<th><%= t 'activerecord.attributes.schedule_day.enabled' %></th>
+						<th><%= t 'activerecord.attributes.schedule_day.all_day' %></th>
+						<th><%= t 'activerecord.attributes.schedule_day.from' %></th>
+						<th><%= t 'activerecord.attributes.schedule_day.to' %></th>
+					</tr>
+					<% @schedule.schedule_days.each do |sd| %>
+						<% if sd.enabled == true %>
+							<tr class = "<%= sd.enabled == true ? '' : 'no_habilitado' %>">
+								<td><%= set_day_name_by_day_id(sd.day_id) %></td>
+								<td><%= sd.enabled == true ? "✔" : "✘" %></td>
+								<td><%= sd.all_day == true ? "✔" : "✘" %></td>
+								<td><%= sd.from.strftime('%H:%M') unless sd.from.nil?%></td>
+								<td><%= sd.to.strftime('%H:%M') unless sd.to.nil? %></td>
+							</tr>
+						<% end %>
+					<% end %>
+				</table>		
+		<% end %>
+	<% end %>
+<% end %>
+
+<%= render "products_and_services_page" %>

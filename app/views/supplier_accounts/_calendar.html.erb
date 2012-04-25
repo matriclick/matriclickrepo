@@ -1,0 +1,124 @@
+<div name ="calendar" id="calendar">
+	<h2 id="month">
+		<%= link_to "<", :month => (@date.beginning_of_month-1).strftime("%d-%b-%Y"), :anchor => 'calendar' %>
+		<%=h l(@date, :format => '%B' ) %><%=h @date.strftime(" %Y") %>
+		<%= link_to ">", :month => (@date.end_of_month+1).strftime("%d-%b-%Y"), :anchor => 'calendar' %>
+	</h2>
+	<%= calendar_for @bookings.to_a, :year => @date.year, :month => @date.month, :first_day_of_week => 1 do |calendar| %>
+		<%= calendar.head( t('date.day_name_custom.moonday'), t('date.day_name_custom.tuesday'), t('date.day_name_custom.wednesday'), t('date.day_name_custom.thursday'), t('date.day_name_custom.friday'), t('date.day_name_custom.saturday'), t('date.day_name_custom.sunday') )  %>
+
+		<% calendar.day(:day_method => :date) do |date, bookings| %>
+
+			<%= "#{date.day} #{("("+t('today')+")") if Date.today == date} " %>
+
+			<!-- FGM: IMPORTANT DATES -->
+			<% @important_dates.each do |important_date| %>
+				<% if date >=  important_date.date.strftime("%d-%b-%Y").to_date and ( date <= important_date.ends_date.strftime("%d-%b-%Y").to_date unless important_date.ends_date.blank?) %>
+					<% if important_date.locked == true %>
+						<li>
+							<div class="<%= 'serviceEventColor '+ "event.service.color_type.name" %>">
+								<span class="unavailable_day"><%= link_to "#{important_date.date_name}", supplier_account_important_dates_path %> (<%= t 'unavailable' %>)</span>
+							</div>
+						</li>						
+					<% else %>
+						<li>
+							<div class="<%= 'serviceEventColor '+ "event.service.color_type.name" %>">
+								<span class="important_date_no_blocked_day"><%= link_to "#{important_date.date_name}", supplier_account_important_dates_path %> (Fecha Importante, <%= t 'available' %>)</span>
+							</div>
+						</li>
+					<% end %>
+					<% @hide_lock = true %>
+				<% end %>
+			<% end %>
+
+			
+			 <!-- FGM: DAY LOCK -->
+			<% if date > Date.today && !@hide_lock ||= false %>
+					<div class="calendar_lock">
+						<%= link_to image_tag("#{(no_more_bookings = @no_more_bookings.reject{|x| x.date != date}).blank? ? "unlocked.png" : "locked.png"}", :size => '15x15'), "#no_more_bookings_#{date}", :id => 'fancybox_form', title: t('manage_locks_for_this_date') %>
+						<% @blocked_names = "" %>
+						<% unless no_more_bookings.blank? %>
+							<div class="no_more_bookings_stripes">
+							  <% no_more_bookings.each do |nmb| %>
+							    <div class="no_more_booking_color_stripe_<%= (nmb.no_more_bookable.respond_to?(:color_type) ? nmb.no_more_bookable.color_type.present? ? nmb.no_more_bookable.color_type.name : ColorType.first.name : ColorType.first.name) %>" title="<%= nmb.no_more_bookable.name + " " +t('is_locked').downcase %>"></div>
+							  <% end %>								
+							</div>
+						<% end %>
+					</div>
+					
+					<!-- FGM: NoMoreBooking (day lock) FANCYBOX -->
+					<div style="display:none">
+						<div id="no_more_bookings_<%=date%>" class="margin-bottom">
+							<div class="titulo_booking " style="width:500px;">
+								<%= t('block_this_date') %>
+							</div>
+							<div class="titulo_booking floatLeft dottedLine">
+								<%= date.strftime "%d-%m-%Y" %>
+							</div>
+							<div class="help_tip">
+								<%= t('helptip.supplier_account.block_bookings') %>
+							</div>
+							<%= form_tag set_bookings_lock_supplier_account_path, method: :put do %>
+								<%= hidden_field_tag :date, date %>
+								<% for bookable in (@supplier_account.services + @supplier_account.products) %>
+									<%= check_box_tag "bookable_ids[#{bookable.class}][]", bookable.id, bookable.has_no_more_booking?(date)  %><%= bookable.name %><br>
+								<% end %>
+								<br />
+								<%= submit_tag t('save'), :class => :button  %>
+							<% end %>
+						</div>
+					</div>
+			<% end %>
+			<% @hide_lock = false %>
+			<!-- End Day lock -->
+		
+			
+		<!-- FGM: Booked items -->
+		<ul>	
+			<% @supplier_account.bookables(:date => date, :except => [:deleted_by_supplier, :deleted_by_user, :related_confirmed, :destroyed, :custom]).each do |bookable| %>
+
+				<li>
+					<div class="<%= (bookable.respond_to?(:color_type) ? bookable.color_type.present? ? bookable.color_type.name : ColorType.first.name : ColorType.first.name) %>">
+						<%= bookable.name %>
+						<div class="booking_dots">
+							<% if (confirmed_count = bookable.bookings.where(:date => date).by_status(status: :confirmed).count) > 0 %>
+								<%= confirmed_count %><%= image_tag("dot.png", :class => :booking_dot) %>	
+							<% end %>
+							<% if (not_confirmed_count = bookable.bookings.where(:date => date).by_status(status: :pending).count) > 0 %>
+								<%= not_confirmed_count %><%= image_tag("empty_dot.png", :class => :booking_dot) %>
+							<% end %>
+						</div>
+					</div>
+				</li>
+			<% end %>
+			
+			<!-- FGM: CUSTOM Bookings -->
+			<% @custom_bookings.where(:date => date).each do |custom_booking| %>
+				<li>
+					<div class="custom_booking">
+						<span class="custom_booking_name"><%= link_to "Reserva manual", "#custom_booking_#{custom_booking.id}", :class => :fancybox_message %> <%= link_to("✘", update_soft_delete_supplier_account_path(@supplier, custom_booking), confirm: t('are_you_sure'), :method => :post) %></span><br>
+						<i class="custom_booking_message"><%= link_to sanitize(crop_if_longer(custom_booking.message, 30), :tags => %w(br)), "#custom_booking_#{custom_booking.id}", :class => :fancybox_message %></i>
+
+						<!-- CUSTOM Booking message fancybox -->
+						<div style="display:none;">
+							<div id="custom_booking_<%= custom_booking.id %>" style="padding:10px;min-height:300px;min-width:400px">
+								<div class="titulos">
+									Reserva manual
+								</div>
+								<div class="box100">
+									<strong>Fecha:</strong> <%= l custom_booking.date %><br><br>
+									<% if custom_booking.bookable.present? %>
+									<strong><%= t("#{custom_booking.bookable.class.to_s.downcase}") %>:</strong> <%= custom_booking.bookable.name %>
+									<% end %>
+									<%= simple_format custom_booking.message %>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+			<% end %>
+		</ul>
+		<% end %>
+	<% end %>
+</div>

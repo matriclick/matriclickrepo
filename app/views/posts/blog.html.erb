@@ -1,0 +1,39 @@
+<div class="master_titulos shadow">
+	<%= image_tag 'header_matriclick_blog.jpg', :alt => 'Matriclick Blog' %>
+</div>
+
+<div class="blog_box">
+	<% @posts.each do |post| %>
+	<div class="blog_images_main">
+		<% post.post_images.each do |i| %>
+			<%= link_to image_tag(i.photo.url(:smaller)), post_path(post) %><br>
+		<% end %>
+	</div>
+	<div class="blog_fecha">
+		<%= l(post.date) %>
+	</div>
+	<div class="blog_titulos">
+		<%= link_to post.title, post_path(post) %>
+	</div>
+	<div class="blog_texto">
+		<%=(desc = post.content).blank? ? 
+		content_tag(:span, :class => 'profileBlankField') : content_tag(:span, (desc[0..250].gsub(/\n/, '<br/>')).html_safe + ("..." if desc.length > 250) ) %>
+	</div>
+	<div class="read_more small">
+		<%= link_to 'Seguir leyendo', post_path(post) %>
+	</div>
+	<div class="blog_share">
+		<div class="addthis_toolbox addthis_default_style ">
+			<a class="addthis_button_tweet"></a>
+			<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+			<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+		</div>
+	</div>
+	<div class="bottom_padding"></div>
+	<% end %>
+	<% unless @posts.count < 10 %>
+		<div class="apple_pagination">
+			<%= will_paginate @posts, :container => false %>
+		</div>		
+	<% end %>
+</div>

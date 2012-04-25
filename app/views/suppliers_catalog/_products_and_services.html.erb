@@ -1,0 +1,23 @@
+<% unless @supplier.supplier_account.products.blank? %>
+	<div class="titulos_small">
+		<%= t 'products' %>
+	</div>
+		<% @supplier.supplier_account.products.each do |product| %>
+				<%= render "layouts/product_box", :element => product %>
+		<% end %>
+		<div class="clear"></div>
+<% end %>
+
+<% unless @supplier.supplier_account.products.blank? or @supplier.supplier_account.services.blank? %>
+	<br/><div class="line"></div><br/>
+<% end %>
+
+<% unless @supplier.supplier_account.services.blank? %>
+	<div class="titulos_small">
+		<%= t 'services' %>
+	</div>
+		<% @supplier.supplier_account.services.each do |service| %>
+			<%= render "layouts/service_box", :element => service %>
+		<% end %>
+		<div class="clear"></div>
+<% end %>

@@ -1,0 +1,20 @@
+<% @supplier_accounts.each do |supplier_account| %>
+	<div class="titulos">
+		<%= supplier_account.fantasy_name %>
+		<%= link_to 'new review', administration_new_review_path(supplier_account), :class => :button %>
+	</div>
+	<% supplier_account.reviews.each do |review| %>
+		<table class="invisible">
+			<tr>
+				<td><%= render "suppliers_catalog/review_content", :review => review unless review.blank? %></td>
+			</tr>
+			<tr>
+				<td>
+					<%= link_to t('edit'), administration_edit_review_path(review, :supplier_account_id => supplier_account.id)  %><br/>
+					<%= link_to t('delete'), administration_destroy_review_path(review), confirm: t('are_you_sure'), method: :delete %>
+				</td>
+			</tr>
+		</table>
+	<% end %>
+	<div class="line"></div>
+<% end %><br/>

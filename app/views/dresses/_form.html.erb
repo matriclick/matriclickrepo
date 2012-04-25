@@ -1,0 +1,57 @@
+<%= nested_form_for @dress, :html => {:multipart => true}, :validate => true do |f| %>
+  <% if @dress.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@dress.errors.count, "error") %> prohibited this dress from being saved:</h2>
+
+      <ul>
+      <% @dress.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+	<%= render 'image_fields', :f => f %>
+	<table class="invisible">
+		<tr>
+			<td>
+				<%= f.label :seller_name %><%= mark_required @dress, :seller_name %><br />
+		    <%= f.text_field :seller_name %>		
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<%= f.label :seller_email %><%= mark_required @dress, :seller_email %><br />
+		    <%= f.text_field :seller_email %>		
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<%= f.label :seller_phone_number %><%= mark_required @dress, :seller_phone_number %><br />
+		    <%= f.text_field :seller_phone_number %>		
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<%= f.label :description %><%= mark_required @dress, :description %><br />
+		    <%= f.text_area :description, :size => '2' %>		
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<%= f.label :price %><br />
+		    <%= f.number_field :price %>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div class="help_tip">
+					Si es independiente, se enviará un email en forma automática a la persona que vende y a la que cotiza.
+				</div>
+				<%= f.check_box :independent %> <%= f.label :independent %>
+			</td>
+		</tr>
+	</table>	
+  <div class="holder">
+    <%= f.submit :class => "button" %>
+  </div>
+<% end %>

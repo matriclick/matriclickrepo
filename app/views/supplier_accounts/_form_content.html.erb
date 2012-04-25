@@ -1,0 +1,84 @@
+<table class="invisible">
+			<tr>
+				<td>
+					<div class="old_image">
+						<%= image_tag @supplier_account.image.url(:tiny) %>
+					</div>
+					<div class="image_field">
+					<%= f.label :image, t('change_image') %><%= mark_required @supplier_account, :image %><br />
+					<%= f.file_field :image %><span class="tiptip" title="<%= t('helptip.supplier_account.image') %>"><%= image_tag 'signo_pregunta.png', :alt => "pregunta", :class => "pregunta" %></span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td><%= f.label :corporate_name %><%= mark_required @supplier_account, :corporate_name %><br />
+				<%= f.text_field :corporate_name, :serviceholder => "Monsters Incorporated" %><span class="tiptip" title="<%= t('helptip.supplier_account.corporate_name') %>"><%= image_tag 'signo_pregunta.png', :alt => "pregunta", :class => "pregunta" %></span></td>
+			</tr>
+			<tr>
+				<td><%= f.label :rut %><%= mark_required @supplier_account, :rut %><br />
+				<%= f.text_field :rut, :serviceholder => "23.456.345-3", :onblur => 'format_rut(this)' %></td>
+			</tr>
+			<tr>
+				<td><%= f.label :fantasy_name %><%= mark_required @supplier_account, :fantasy_name %><br />
+				<%= f.text_field :fantasy_name, :serviceholder => "Monsters Inc." %><span class="tiptip" title="<%= t('helptip.supplier_account.fantasy_name') %>"><%= image_tag 'signo_pregunta.png', :alt => "pregunta", :class => "pregunta" %></span></td>
+			</tr>
+			<tr>
+				<td><%= f.label :web_page %><%= mark_required @supplier_account, :web_page %><br />
+				<%= f.text_field :web_page, :serviceholder => "www.example.com" %><span class="tiptip" title="<%= t('helptip.supplier_account.web_page') %>"><%= image_tag 'signo_pregunta.png', :alt => "pregunta", :class => "pregunta" %></span></td>
+			</tr>
+			<tr>
+				<td><%= f.label :public_url, t('your_site_in_mc') %><%= mark_required @supplier_account, :public_url %><br />
+				<span><%= "www.matriclick.com/ " %></span><%= f.text_field :public_url, :serviceholder => "flores_lindas" %><span class="tiptip" title="<%= t('helptip.supplier_account.public_url') %>"><%= image_tag 'signo_pregunta.png', :alt => "pregunta", :class => "pregunta" %></span></td>
+			</tr>
+			<tr>
+				<td><%= f.label :phone_number %><%= mark_required @supplier_account, :phone_number %><br />
+				<%= f.text_field :phone_number, :serviceholder => "+56 2 324 3434" %></td>
+			</tr>
+			<tr>
+				<td><%= f.label :address %><%= mark_required @supplier_account, :address %><br />
+				<%= f.text_field :address, :serviceholder => "Somewhere 214" %></td>
+			</tr>
+			<tr>
+				<td><%= f.label t('industry_categories') %><span class="tiptip" title="<%= t('helptip.supplier_account.industry_categories') %>"><%= mark_required @supplier_account, :industry_category_ids %><%= image_tag 'signo_pregunta.png', :alt => "pregunta", :class => "pregunta" %></span>
+					<br />
+					<br />
+					<% for ict in @industry_category_types %>
+						<span class="small"><%= t(ict.name) %></span>
+						<div class="holder">
+							<% for ic in @industry_categories.find_all_by_industry_category_type_id(ict.id) %>
+								<span><%= check_box_tag("supplier_account[industry_category_ids][]", ic.id, (@supplier_account.industry_categories.include? ic), :class => "ict_#{ict.id}", :onchange => 'is_bookable();') %></span>
+								<span class="lucida small"><%= ic.name %></span><br />
+							<% end %>
+						</div>
+						<br/>
+					<% end %>
+				</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="">
+							<%= f.check_box :bookable %>
+							<%= f.label :bookable, t("i_want_booking_system") %><span class="tiptip" title="<%= t "helptip.supplier_account.bookable" %>"><%= image_tag 'signo_pregunta.png', :alt => "pregunta", :class => "pregunta" %></span>
+						</div>
+					</td>
+				</tr>
+				<tr id="bookable_settings" style="display:none;">
+					<td>
+						<div>
+							Recursos: <%= f.number_field :booking_resources, :size => 3 %>
+							<div class="help_tip">
+								La cantidad de recursos que consumen tus productos/servicios serán definidos en el formulario para cada uno de ellos.
+							</div>
+						</div>
+						<div>
+							<h4>¿Qué son las Reservas y Recursos?</h4>
+							<p>El calendario de reservas cuenta con <strong>recursos</strong> que se irán consumiendo a medida que la gente vaya reservando (recursos por día). Estos recursos los defines tú, porque tienen relación directa con tu capacidad de atención diaria.</p>
+							<h4>Ejemplo</h4>
+							<p>Consideremos un centro de eventos que cuenta con 3 salas para arriendo y presta dos servicios diferentes: arriendo pareado (que utiliza dos salas simultáneamente) y arriendo normal (que utiliza sólo una sala). Este centro de eventos definirá que cuenta con 3 recursos disponibles y, luego, definirá que sus servicios consumen 2 y 1 recursos correspondientemente. De esta forma, si alguien arrienda el servicio pareado para un día determinado, sólo quedará 1 recurso disponible para que alguien arriende el servicio normal para ese mismo día, evitando que el proveedor no pueda cumplir con sus servicios.</p>
+						</div>
+					</td>
+				</tr>
+</table>
+<div class="holder">
+	<%= f.submit t('save'), :class => "button check_size" %> <%= image_tag "loading.gif", :class => :select_loading, :style => "display:none;" %>
+</div>

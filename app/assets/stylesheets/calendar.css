@@ -1,0 +1,219 @@
+h2#month {
+	color:#777 !important;
+}
+h2#month a {
+	color:#777 !important;
+}
+h2#month a:hover {
+	color:#444 !important;
+}
+#calendar table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.titulo_booking {
+	font-size:24px;
+	margin:0 0 10px 0;
+	width:100%;
+	font-weight:bolder;
+}
+.texto_booking {
+	float:left;
+	clear:both;
+	margin:7px 30px 3px 0;
+}
+.service_detail_date {
+	color: #555555;
+  font-size: 24px;
+  margin-right: 25px;
+  position: relative;
+  top: 30px;
+}
+#calendar td,
+#calendar th {
+  font-family: helvetica,sans-serif;
+  font-size: 11px;
+  padding: 6px;
+  border: 1px solid #777;
+}
+
+#calendar th {
+  background: #eee;
+  color: #444;
+  text-align: center;
+  width: 14.2857142857143%;
+}
+
+#calendar td {
+  background: #FFF;
+  color: #666;
+  height: 80px;
+  vertical-align: top;
+  font-size: 16px;
+}
+
+#calendar .notmonth {
+  color: #999;
+}
+
+#calendar #month {
+  margin: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+	color:#fff;
+}
+
+#calendar #month a, #calendar #month a:hover {
+  text-decoration: none;
+  padding: 0 10px;
+  color: #fff;
+}
+
+#calendar .today {
+  background-color: #DBF3FF !important;
+}
+
+#calendar ul {
+  margin: 0;
+  margin-top: 5px;
+  padding: 0;
+  list-style: none;
+}
+
+#calendar li {
+  margin: 0;
+  padding: 0;
+  font-size: 11px;
+  text-align: center;
+}
+
+/* colors for calenar events */
+.Rojo, .radio_service_color_Rojo, .leyend_square_Rojo, .no_more_booking_color_stripe_Rojo {
+	background-color: #FCDDDB;
+}
+.Azul, .radio_service_color_Azul, .leyend_square_Azul, .no_more_booking_color_stripe_Azul {
+	background-color: #DCE5FF;
+}
+.Verde, .radio_service_color_Verde, .leyend_square_Verde, .no_more_booking_color_stripe_Verde {
+	background-color: #E2FFDE;
+}
+.Amarillo, .radio_service_color_Amarillo, .leyend_square_Amarillo, .no_more_booking_color_stripe_Amarillo {
+	background-color: #FEFFE2;
+}
+.Morado, .radio_service_color_Morado, .leyend_square_Morado, .no_more_booking_color_stripe_Morado {
+	background-color: #F6E2FF;
+}
+.Naranjo, .radio_service_color_Naranjo, .leyend_square_Naranjo, .no_more_booking_color_stripe_Naranjo {
+	background-color: #FEF0D7;
+}
+.radio_service_color_Rojo, .radio_service_color_Azul, 
+.radio_service_color_Verde, .radio_service_color_Amarillo, 
+.radio_service_color_Morado, .radio_service_color_Naranjo {
+	padding:5px;
+	margin:0 2px;
+	border:1px solid #ccc;
+}
+.no_more_bookings_stripes{
+	float:right;
+}
+.no_more_booking_color_stripe_Azul, .no_more_booking_color_stripe_Rojo,
+.no_more_booking_color_stripe_Verde, .no_more_booking_color_stripe_Amarillo,
+.no_more_booking_color_stripe_Morado, .no_more_booking_color_stripe_Naranjo {
+	height:3px;
+	width:10px;
+	margin:1px;
+	border: 1px solid #DDDDDD;
+	cursor:help;
+}
+.leyend_square_Rojo, .leyend_square_Azul, .leyend_square_Verde,
+.leyend_square_Amarillo, .leyend_square_Morado, .leyend_square_Naranjo, .leyend_image {
+	height: 15px;
+	width: 15px;
+	display: block;
+	border: 1px solid #ddd;
+	float: left;
+	margin:-3px 10px 0 0;
+}
+.leyend_image {
+	border:none;
+	width:auto;
+}
+.service_leyend {
+	font-size:11px;
+	width:auto;
+	float:left;
+	clear:both;
+	margin:5px 0;
+}
+.place_leyend {
+	padding:2px 0;
+	clear:both;
+}
+#services_leyend, #tools_leyend {
+	float:left;
+	width:50%;
+}
+.unavailable_day {
+	font-weight:normal;
+	color:gray;
+}
+/*.important_date_no_blocked_day {
+	font-weight:normal;
+	color:purple;
+}*/
+.day_reserved{
+	background-color: #9E0508;
+}
+.leyend_square_reserved{
+  border: 1px solid #DDDDDD;
+  display: block;
+  float: left;
+  height: 15px;
+  margin: -3px 10px 0 0;
+  width: 15px;
+}
+.texto_leyend_square_reserved {
+	float:left;
+}
+/* calendar status days */
+.all_available{
+  font-family: helvetica,sans-serif;
+  font-size: 11px;
+	background-color: #FEF;
+}
+.available_and_reserved{
+  font-family: helvetica,sans-serif;
+  font-size: 11px;
+	background-color: #FFE;
+}
+.no_available{
+  font-family: helvetica,sans-serif;
+  font-size: 11px;
+	background-color: #EFF;
+}
+.calendar_lock {
+	float:right;
+}
+.calendar_lock a {
+	float:left;
+}
+.booking_dots {
+	line-height:10px;
+	font-size:10px;
+}
+.booking_dots img{
+	position:relative;
+	top:2px;
+}
+.booking_dot {
+	margin-right:3px;
+}
+.event_description {
+	float:left;
+	width:100%;
+}
+.custom_booking {
+	background-color:#E5FFFF;
+	padding:3px 0px;
+}

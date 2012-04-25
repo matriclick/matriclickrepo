@@ -1,0 +1,171 @@
+<div class="right_link_in_catalog_page">
+	<%= session[:preview] == true ? (link_to t('back'), "#", :class => :button, :onclick => "return false;") : (link_to t('back'),  products_and_services_catalog_index_path(:industry_category_ids => @object.industry_category_id), :class => :button) %>
+</div>
+
+<%= render "layouts/navigation_arrows", :object => @object %>
+
+<%= render "layouts/reviews_box", reviews: @object.supplier_account.reviews %>
+
+<div class="arrows_image_data_wrapper">
+	
+	<%= yield :left_arrow %>
+	
+	<div class="supplier_page_in_image <%= "margin_left_30" if @has_navigation_arrows %>">
+		<% if eval("@object.#{@object.class.to_s.downcase}_images.active").blank? %>
+			<%= image_tag "/images/small/missing.png" %>
+		<% else %>
+	  	<%= link_to image_tag( eval("@object.#{@object.class.to_s.downcase}_images.active.cover_first.first.image.url(:small)")), eval("@object.#{@object.class.to_s.downcase}_images.active.cover_first.first.image.url(:original)"), :class => :fancybox %>
+		<% end %>
+		
+		<% unless (imgs = eval("@object.#{@object.class.to_s.downcase}_images.active.without_cover")).blank? %>
+			<div class="supplier_page_in_image_count">
+				<% imgs.each_with_index do |image, i| %>
+					<%= link_to image_tag(image.image.url(:tiny)), image.image.url(:original), :class => :fancybox, :rel => :gallery  %>
+				<% end %>
+			</div>
+		<% end %>
+		
+	</div>
+	<div class="product_in_data">
+		<div class="product_in_name"><%= "#{crop_if_longer @object.name.humanize, 25}" %></div>
+		<ul class="supplier_page_in_supplier">
+		  <li class="supplier_data"><%= "Proveedor " %><%= link_to @supplier.supplier_account.fantasy_name, supplier_products_and_services_path(@supplier, :public_url => @supplier.supplier_account.public_url) %></li>
+			<div class="dottedLine"></div>
+			<li class="product_in_price"><%= "Precios: #{number_to_currency(@object.price)} #{" - " + number_to_currency(@object.top_price_range) unless @object.top_price_range == 0} #{"/ " + @object.price_description unless @object.price_description.blank?}" %></li>
+			<div class="help_tip_iva"> <%= t'helptip.iva_included' %></div>
+
+			<% # FGM: ACTION BUTTONS %>
+			<% if user_signed_in?  %>
+				<li class="button_in_product">
+					<% unless session[:preview] == true %>
+						<% if current_user.role_id == 3 -%>
+							<%= link_to raw("<div class='image'></div><div class='message'>Agregar a presupuesto</div>"), "#sign_in_fancybox" , :id => "add_to_budget_button", :class => 'action_button fancybox_message' %>
+							<%= link_to raw("<div class='image'></div><div class='message'>"+t('ask_reference')+"</div>"), "#sign_in_fancybox" , :id => "reference_request_button", :class => 'action_button fancybox_message' %>
+							<%= link_to raw("<div class='image'></div><div class='message'>Hacer una reserva</div>"), "#sign_in_fancybox" , :id => "add_booking_button", :class => 'action_button fancybox_message' %>
+							
+							<%= render "layouts/sign_in_fancybox" %>
+						<% else -%>
+							<% if current_user.user_account.has_enough_info == true %>
+
+								<% # FGM: Check whether the object has been added to budget %>
+								<% if (budget = current_user.user_account.related_budget(@object, BudgetType.find_by_name("$$"))).present? %>
+									<div id="added_to_budget_button" class="action_button">
+										<%= link_to raw("&times"), budget, method: :delete, :confirm => "¿Estás seguro que quieres quitarlo del presupuesto?", :class => "cancel_action", :title => "Quitar del presupuesto" %>
+										<div class="image"></div>
+										<%= link_to "Ir a presupuesto", standard_budget_path, title: "Ya agregaste este ítem a tu presupuesto." %>	
+									</div>
+								<% else %>
+									<%= link_to raw("<div class='image'></div><div class='message'>"+t('add_to_budget')+"</div>"), "#add_to_budget" , :id => "add_to_budget_button", :class => 'action_button fancybox_message' %>
+								<% end %>
+								<%= link_to raw("<div class='image'></div><div class='message'>Hacer una reserva</div>"), products_and_services_catalog_bookings_path(@object.class, @object.id), :id => "add_booking_button", :class => 'action_button' %>
+							<% else -%>
+								<%= render "layouts/no_enough_user_info", :word => t('add_to_budget'), :link_class => 'button' %>
+							<% end -%>
+							<%= render 'layouts/reference_request', :ask_reference => params[:ask_reference] %>
+						<% end -%>
+					<% end -%>
+				</li>		
+				<% end -%>
+			</ul>
+		<br>
+	</div>
+
+	<%= yield :right_arrow %>
+</div>
+
+<ul class="supplier_page_in_menu">
+	<li class="pestana <%= "pestana_on" if params[:action] == 'description' %>"><%= link_to "Descripción", products_and_services_catalog_description_path(@object, :object_class => @object.class) %></li>
+	
+	<!-- BOOKINGS (Product & Service) -->
+	<li class="pestana <%= "pestana_on" if ["add_service_to_budget", "bookings", "add_booking", "destroy_booking"].include? params[:action] %>">
+		<% if  session[:preview] == true %>
+			<%="Reservas" %>
+		<% else -%>
+			<% if user_signed_in? %>
+				<% if current_user.role_id == 3 -%>
+					<%= link_to "Reservas", "#sign_in_fancybox" , :id => "fancybox_form" %>
+					<%= render "layouts/sign_in_fancybox" %>
+				<% else -%>
+					<%= link_to "Reservas", products_and_services_catalog_bookings_path(@object.class, @object.id) %>
+				<% end -%>					
+			<% else %>
+				<%= link_to "Reservas", products_and_services_catalog_bookings_path(@object.class, @object.id) %>
+			<% end %>
+		<% end -%>
+	</li>
+	
+	<% # FGM: Disabled Schedules %>
+	<% if @object.class.to_s.downcase == "service" && false %>
+		<li class="pestana <%= "pestana_on" if params[:action] == 'schedule_day' %>"><%= link_to "Horarios", products_and_services_catalog_schedule_day_path(@object) %></li>
+	<% end %>
+	<li class="pestana <%= "pestana_on" if params[:action] == 'faqs' %>"><%= link_to "Preguntas Frecuentes", products_and_services_catalog_faqs_path(@object, :object_class => @object.class ) %> <%= "(" + eval("@object.#{@object.class.to_s.downcase}_faqs").count.to_s + ")" %></li>
+	<li class="pestana <%= "pestana_on" if params[:action] == "conversations" %>">
+		<% if  session[:preview] == true %>
+			<%= "Mensajes con el proveedor" %>
+		<% else -%>
+			<% if user_signed_in? %>
+				<% if current_user.role_id == 3 -%>
+					<%= link_to "Mensajes con el proveedor", "#sign_in_fancybox" , :id => "fancybox_form" %>
+					<%= render "layouts/sign_in_fancybox" %>
+				<% else -%>
+					<%= link_to "Mensajes con el proveedor", products_and_services_catalog_conversations_path(@object, :object_class => @object.class) %>
+				<% end -%>								
+			<% else %>
+			  <%= link_to "Mensajes con el proveedor", products_and_services_catalog_conversations_path(@object, :object_class => @object.class) %>
+			<% end %>
+		<% end -%>
+	</li>
+	<li class="pestana <%= "pestana_on" if params[:action] == "contacts" %>"><%= link_to "Contactos (#{@object.supplier_account.supplier_contacts.count})", products_and_services_catalog_contacts_path(@object, :object_class => @object.class) %></li>
+</ul>
+<div class="supplier_page_in_content">
+	<%= yield :products_and_services_page_in_content %>
+</div>
+
+ <%= render "layouts/products_and_services_fancybox", :locals => {:supplier => @supplier} %>
+
+
+<!-- ADD TO BUDGET -->
+<% if user_signed_in? %>
+	<div style="display:none;">
+		<div id="add_to_budget" style="padding:20px;">
+			<div class="titulos" style="text-align:center;">
+				Agregar <%= @object.name %> a tu presupuesto
+			</div>
+			<!-- FGM: Only Standard Budget for the moment -->
+			<!-- <div class="fancy_budget_type marginLeft10">
+				<%= link_to image_tag("#{current_user.user_account.included_in_budget?(@object, BudgetType.find_by_name("$")) ? 'fancy_bronce_budget_checked.png' : 'fancy_bronce_budget.png'}", :alt => "add_to_bronce_budget", :title => t("add_to_econ_budget")), products_and_services_catalog_add_to_budget_path(@object, BudgetType.find_by_name("$"), :object_class => @object.class), method: :post, :onclick => "$('#product_#{@object.id}').hide()" %>
+				<div class="budget_type_subtitle">
+					<%= t 'economic' %>
+				</div>	
+			</div> -->
+			<div id="budget_images">
+				<%= image_tag( eval("@object.#{@object.class.to_s.downcase}_images.active.cover_first.first.image.url(:tiny)")) %>
+				<%= image_tag 'arrow_right.png' %>
+				<%= image_tag("#{current_user.user_account.included_in_budget?(@object, BudgetType.find_by_name("$$")) ? 'fancy_silver_budget_checked.png' : 'fancy_silver_budget.png'}", :alt => "add_to_bronce_budget", :title => t("add_to_standard_budget")) %>
+			</div>
+			<%= form_tag products_and_services_catalog_add_to_budget_path(@object, BudgetType.find_by_name("$$"), :object_class => @object.class), method: :post do %>
+				<div id="budget_price">
+					<p>¿Está bien este precio?</p>
+					<div>$ <%= number_field_tag :budget_price, @object.price %></div>
+					<div class="help_tip">Puedes corregirlo para tus registros</div>					
+				</div>
+				<% if current_user.user_account.included_in_budget?(@object, BudgetType.find_by_name("$$")) %>
+				<div class="help_tip" style="text-align:center;">
+					Ya lo agregaste a tu presupuesto, pero puedes volver a hacerlo si quieres.
+				</div>				
+				<% end %>
+				<div class="holder">
+					<%= image_tag "loading.gif", :class => 'select_loading right', :style => "display:none;margin-left:4px;top:7px;" %>
+					<%= submit_tag "Agregar", :class => 'button right' %>
+				</div>
+			<% end %>
+			<!-- FGM: Only Standard Budget for the moment -->
+			<!-- <div class="fancy_budget_type marginLeft10">
+				<%= link_to image_tag("#{current_user.user_account.included_in_budget?(@object, BudgetType.find_by_name("$$$")) ? 'fancy_gold_budget_checked.png' : 'fancy_gold_budget.png'}", :alt => "add_to_bronce_budget", :title => t("add_to_premium_budget")), products_and_services_catalog_add_to_budget_path(@object, BudgetType.find_by_name("$$$"), :object_class => @object.class), method: :post, :onclick => "$('#product_#{@object.id}').hide()" %>
+				<div class="budget_type_subtitle">
+					Premium
+				</div>
+			</div> -->
+		</div>				
+	</div>	
+<% end %>

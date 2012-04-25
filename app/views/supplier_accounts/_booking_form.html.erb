@@ -1,0 +1,50 @@
+<%= form_for @custom_booking, :url => create_booking_supplier_account_path(@supplier), :html => {:id => "new_custom_booking"} do |f| %>
+
+	<%= hidden_field_tag 'booking[supplier_account_id]', @supplier.supplier_account.id %>
+  <table class="invisible form_section">
+  	<tr>
+  		<td>
+				<div class="help_tip">
+					Registra una reserva en forma manual. Puedes anotar los datos que quieras en el cuadro de texto a continuación.
+  			</div>
+			</td>
+  	</tr>
+		<tr>
+			<td>
+				¿Para cuándo es esta reserva?<br>
+				<%= f.text_field :date, :class => :datepicker %>
+			</td>
+		</tr>
+		<% if @supplier.supplier_account.products.present? || @supplier.supplier_account.services.present? %>
+		<tr>
+			<td>
+				¿Cuál es el producto/servicio relacionado?<br>
+				<% if @supplier.supplier_account.products.present? %>
+					<div style="margin-top:10px;">
+						<strong>Productos</strong><br>
+						<% @supplier.supplier_account.products.each do |p| %>
+							<%= radio_button_tag 'bookable', "#{p.class}_#{p.id}" %> <%= crop_if_longer p.name, 20 %><br>
+						<% end %>
+					</div>
+				<% end %>
+				<% if @supplier.supplier_account.services.present? %>
+					<div style="margin-top:10px;">
+						<strong>Servicios</strong><br>
+						<% @supplier.supplier_account.services.each do |s| %>
+							<%= radio_button_tag 'bookable', "#{s.class}_#{s.id}" %> <%= crop_if_longer s.name, 20 %><br>
+						<% end %>
+					</div>
+				<% end %>
+			</td>
+		</tr>
+		<% end %>
+
+		<tr>
+			<td><%= f.text_area :message, size: "20x10" %></td>
+		</tr>
+  </table>
+	<div class="holder">
+		<%= f.submit "Guardar", :class => 'button right' %>
+	</div>
+	<div class="clear"></div>
+<% end -%>

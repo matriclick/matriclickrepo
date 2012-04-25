@@ -1,0 +1,126 @@
+<% if @service.errors.any? %>
+  <div id="error_explanation">
+	  <h2><%= @service.errors.count > 1 ? t("activerecord.errors.template.header.other") : t("activerecord.errors.template.header.one") %>:</h2>
+	  <ul>
+		  <% @service.errors.full_messages.each do |msg| %>
+		  <li><%= msg %></li>
+		  <% end %>
+	  </ul>
+  </div>
+<% end %>
+<div class="clear"></div>
+<% unless params[:action] =="edit" or params[:action] == "update" %>
+	<table class="invisible">
+		<tr>
+			<td>
+				<%= render 'services/image_fields', :f => f %>
+			</td>
+		</tr>
+	</table>	
+<% end %>
+<% if @industry_categories%>
+	<div class="holder">
+		<table class="invisible">
+			<tr>
+				<td><%= f.label :industry_category %><%= mark_required @service, :industry_category_id %><br/>				
+					<%= f.select :industry_category_id, grouped_options_for_select(@industry_cat_types, @service.industry_category.present? ? selected_key = @service.industry_category.id : nil),{} ,:onchange =>"check_service_type(this, #{@not_deliverable_services_ids})" %>
+				</td>
+			</tr>
+		</table>
+	</div>	
+<% end %>
+<div class="holder">
+	<%= f.check_box :deliverable, :hidden => true %>
+	<table class="invisible">
+		<tr>
+			<td><%= f.label :name %><%= mark_required @service, :name %><br />
+			<%= f.text_field :name %></td>
+		</tr>
+		<tr>
+			<td><%= f.label :contact_phone %><%= mark_required @service, :contact_phone %><br />
+			<%= f.text_field :contact_phone %></td>
+		</tr>
+		<tr class="address_tr">
+			<td><%= f.label :address %><%= mark_required @service, :address %><br />
+			<%= f.text_field :address %></td>
+		</tr>
+		<tr class="address_tr">
+			<td><%= f.label :commune %><%= mark_required @service, :commune %><br />
+			<%= f.text_field :commune %></td>
+		</tr>
+		<% if @service.supplier_account.bookable %>
+		<tr>
+			<td><%= f.label :booking_resources_consumed, "Recursos consumidos al reservar (máximo #{@service.supplier_account.booking_resources})" %><br />
+			<%= f.number_field :booking_resources_consumed %><span class="tiptip" title="Corresponde a la cantidad de recursos que consumirá cada reserva que se haga para este servicio."><%= image_tag 'signo_pregunta.png', :alt => "pregunta", :class => "pregunta" %></span></td>
+		</tr>
+		<% end %>
+    <tr class="address_tr">
+      <td><%= check_box_tag 'parking', 'on', 'checked', :onchange =>'change_check_box_value()' %> <%= label_tag t('activerecord.attributes.service.parking') %> <br />
+		    <%= f.text_field :parking %><span class="tiptip" title="<%= t 'helptip.service.parking' %>"><%= image_tag 'signo_pregunta.png', :alt => "pregunta", :class => "pregunta" %></span></td>
+		  </tr>
+	</table>
+	<div class="help_tip">
+		<%= t'helptip.product.price_range' %>
+	</div>
+	<table class="invisible">
+		<tr>
+			<% if params[:action] =='new' %>
+				<td><%= radio_button_tag 'price', 'unique', true, :onchange => "set_service_prices_visibility()" %> <%= t('unique_price') %></td>
+				<td><%= radio_button_tag 'price', 'range', false, :onchange => "set_service_prices_visibility()"%> <%= t('range_price') %></td>
+			<% elsif params[:action] == 'edit' %>
+				<td><%= radio_button_tag 'price', 'unique', (@service.top_price_range == 0 ? true : false ), :onchange => "set_service_prices_visibility()" %> <%= t('unique_price') %></td>
+				<td><%= radio_button_tag 'price', 'range', (@service.top_price_range == 0 ? false : true ), :onchange => "set_service_prices_visibility()"%> <%= t('range_price') %></td>
+			<% end %>
+		</tr>
+		<tr>
+			<td><%= f.label :price %><%= mark_required @service, :price %></td>
+			<td><%= f.label :top_price_range, :id => 'top_price_label' %><%= mark_required @service, :top_price_range %></td>
+			<td><%= f.label :price_description %><%= mark_required @service, :price_description %></td>
+		</tr>
+		<tr>
+			<td><%= f.number_field :price, :size => 10, :onblur =>"change_service_prices()" %></td>
+			<td style="width:150px"><%= f.number_field :top_price_range, :size => 10, :onblur =>"change_service_prices()" %></td>
+			<td id="hidden_top_price_range" style="display: none;"><%= @service.top_price_range.present? ? @service.top_price_range : 0 %></td>
+			<td><%= f.text_field :price_description %><span class="tiptip" title="<%= t 'helptip.product.price_description' %>"><%= image_tag 'signo_pregunta.png', :alt => "pregunta", :class => "pregunta" %></span></td>
+		</tr>
+	</table>
+</div>
+<br />
+<div class="holder">
+	<div class="help_tip">
+		<%= t 'helptip.service.color' %>
+	</div>
+	<% for color in @color_types %>
+	<span class="radio_service_color_<%= color.name %>"><%= radio_button :service, :color_type_id, color.id, :checked => true %></span>
+	<% end %>
+</div>
+<br/>
+<div class="holder">
+<p><%= render "layouts/how_to_upload_a_video" %></p>
+	<%= f.fields_for :videos do |videos_form| %>
+			<table class="invisible">
+			<tr>
+				<td>
+					<%= videos_form.label :url_code %><br />
+					<%= videos_form.text_field :url_code %>
+					<%= videos_form.link_to_remove "Remover video", :class => 'small_button' %>
+				</td>
+			</tr>
+		</table>
+	<% end %>	
+	<%= f.link_to_add "Agregar video", :videos, :class => 'small_button' %>
+</div>
+<div class="holder">
+	<table class="invisible">
+		<tr>
+			<td><%= f.label :description %><%= mark_required @service, :description %><br />
+			<%= f.text_area :description, :size => '150x10' %></td>
+		</tr>
+	</table>
+</div>
+<div class="holder">
+  <%= render "services/service_faq_fields", :f => f %>
+</div>
+<div class="holder">
+	<%= f.submit :class => "button" %> <%= image_tag "loading.gif", :class => :select_loading, :style => "display:none;" %>
+</div>

@@ -1,0 +1,88 @@
+<div class="left_menu">
+	<ul class="menu bold">
+
+	  <% if session[:preview] == true %>
+	  <li class="menu_li_disabled"><%= t('profile') %></li>
+	  <li class="menu_li_disabled"><%= t('products_and_services') %></li>
+	  <li class="menu_li_disabled"><%= t('checklist') %></li>
+	  <li class="menu_li_disabled"><%= t('activerecord.attributes.event.booking_list') %></li>
+	  <li class="menu_li_disabled"><%= t('finance') %></li>
+	  <li class="menu_li_disabled"><%= t('invitees') %></li>
+	  <li class="menu_li_disabled"><%= t('ceremony') %></li>
+	  <% else %>
+			<li class="menu_li">
+					<%= link_to "Gana un Matrimonio!", campaign_wedding_of_the_year_path, :class => "left_link_special" %>
+			</li>
+			<li class="menu_li">
+				<div class="<%= "hover_style" if params[:controller] == "posts" %>">
+					<%= link_to t('tendencies'), blog_path, :class => "left_link" %>
+				</div>
+			</li>
+			<li class="menu_li">
+				<div class="<%= "hover_style" if params[:controller] == "user_profile" %>">
+					<%= link_to t('profile'), user_profile_path, :class => "left_link" %>
+				</div>
+			</li>
+			<% if Rails.env == "development" %>
+			<li class="menu_li">
+				<div class="<%= "hover_style" if params[:controller] == "reviews" %>" style="<%= "background:lightyellow;" unless params[:controller] == "reviews" %>">
+					<%= link_to t('your_comments'), reviews_index_path, :class => "left_link" %>
+				</div>
+			</li>
+			<% end %>
+			<li class="menu_li">
+				<div class="<%= "hover_style" if ["products_and_services_catalog", "suppliers_catalog"].include?(params[:controller])  %>">
+					<%= link_to t('catalog'), products_and_services_catalog_select_industry_category_path(), :class => "left_link" %>
+				</div>	
+			</li>
+			<li class="menu_li">
+				<div class="<%= "hover_style" if params[:controller] == "ceremonies" %>">
+					<%= link_to t('ceremonies'), ceremonies_menu_path, :class => "left_link" %>
+				</div>
+			</li>
+			<li class="menu_li">
+				<div class="<%= "hover_style" if params[:controller] == "dresses" %>">
+					<%= link_to t('used_dresses'), dresses_menu_path, :class => "left_link" %>
+				</div>
+			</li>
+			<li class="menu_li">
+				<div class="<%= "hover_style" if params[:controller] == "matrichecklist" %>">
+					<%= link_to t('checklist'), matrichecklist_index_path, :class => "left_link"  %>
+				</div>	
+			</li>
+			<li class="menu_li">
+				<div class="<%= "hover_style" if ((['expenses', 'budgets'].include? params[:controller]) && params[:action] != 'points') %>">
+					<%= link_to t('finance'), budget_menu_path, :class => "left_link" %>
+				</div>
+			</li>
+			<li class="menu_li">
+				<div class="<%= "hover_style" if (['invitees'].include? params[:controller] ) %>">
+					<%= link_to t('invitees'), invitees_menu_path, :class => "left_link" %>
+				</div>
+			</li>
+			<li class="menu_li">
+				<div class="<%= "hover_style" if params[:controller] == "bookings" %>">
+					<%= link_to t('activerecord.attributes.event.booking_list'), bookings_booking_list_path, :class => "left_link" %>
+				</div>
+				<% if user_signed_in? %>
+					<% if (count = current_user.user_account.bookings.by_status(:except => [:destroyed, :deleted_by_user]).by_read_status(:status => [:unread, :read_by_supplier]).count) > 0 %>
+						<div id="booking_counter" class="notification_counter<%= "_selected" if params[:controller] == "bookings" %> "><%= count %></div>	
+					<% end %>						
+				<% end %>
+			</li>
+			<li class="menu_li">
+				<div class="<%= "hover_style" if params[:controller] == "user_conversations" %>">
+					<%= link_to t('messages'), user_conversations_index_path(), :class => "left_link" %>
+				</div>
+				<% if (@user_conversations_unread_count || 0 ) > 0 %>
+					<div class="notification_counter<%= "_selected" if params[:controller] == "bookings" %> "><%= @user_conversations_unread_count.to_s %></div>	
+				<% end %>	
+			</li>
+			<li class="menu_li">
+				<div class="<%= "hover_style" if params[:controller] == "expenses" && params[:action] == 'points' %>">
+					<%= link_to t('matriclick_points'), points_path(), :class => "left_link" %>
+				</div>
+			</li>
+	  <% end %>
+	</ul>	
+</div>

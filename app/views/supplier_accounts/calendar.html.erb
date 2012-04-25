@@ -1,0 +1,59 @@
+	<% if @supplier.supplier_account.bookable %>
+		<div class="right_link">
+			<%= link_to "Nueva reserva", new_booking_supplier_account_path(@supplier), :class => 'button custom_booking_fancybox' %>
+		</div>
+	<% else -%>
+		<div class="help_tip">
+			<%= t 'helptip.supplier_account.bookable_info' %>
+		</div>
+	<% end %>
+	
+	<div class="titulos">
+		<%= t 'calendar' %>
+	</div>
+	<div class="box">
+		
+		<!-- FGM: CALENDAR -->
+		<%= render "calendar" %>
+
+		<div class="titulos">
+			<%= t 'leyend' %>
+		</div>
+		<div id="services_leyend">
+			<% unless @bookables.blank? %>
+				<% for bookable in @bookables %>
+				<div class="service_leyend">
+					<span class="<%= "leyend_square_"+ (bookable.respond_to?(:color_type) ? bookable.color_type.present? ? bookable.color_type.name : ColorType.first.name : ColorType.first.name) %>"></span>
+					<span><%= bookable.name %></span>
+				</div>
+				<% end %>
+			<% end %>
+		</div>
+		<div id="tools_leyend">
+			<div class="service_leyend">
+				<%= image_tag("locked_leyend.png", :height => '15px', :class => 'leyend_image') %>
+			 	<span><%= t('helptip.calendar.locked') %></span>
+			</div>
+			<div class="service_leyend">
+				<%= image_tag("unlocked.png", :size => '15x15', :class => 'leyend_image') %>
+				<span><%= t('helptip.calendar.unlocked') %></span>
+			</div>
+			<div class="service_leyend">
+				<%= image_tag("dot_leyend.png", :size => '15x15', :class => 'leyend_image') %>
+				<span><%= t('helptip.calendar.dot') %></span>
+			</div>
+			<div class="service_leyend">
+				<%= image_tag("empty_dot_leyend.png", :size => '15x15', :class => 'leyend_image') %>
+				<span><%= t('helptip.calendar.empty_dot') %></span>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<br>
+	
+	<!-- FGM: Bookings List -->
+	<a name="bookings_list"></a>
+	<div class="titulos">
+		<%= t 'all_your_bookings' %>
+	</div>
+	<%= render "bookings_list", :bookings => @bookings, :paginate => true, :show => true, :remote => false %>

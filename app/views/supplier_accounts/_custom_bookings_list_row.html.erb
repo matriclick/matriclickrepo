@@ -1,0 +1,32 @@
+<td>
+	<div class="floatLeft textAlignRight width25">
+		Reserva manual<br>
+		<%= t('booked_at') %><br/>
+		<%= t('created_at') %><br/>
+		Detalles
+	</div>
+	<div class="floatLeft textAlignLeft paddingLeft10 light width65">
+		<br>
+		<strong><%= l(custom_booking.date) %></strong><br/>
+		<%= l(custom_booking.created_at.to_date) %><br/>
+		<% unless !custom_booking.respond_to?(:message) || custom_booking.message.blank? %>
+			<% if (d = custom_booking.message).length > 55 %>
+				<span class="hideable"><%= sanitize(d[0..54].gsub(/\n/, "<br>"), :tags=> %W(br) )+ "... " %></span><%= link_to_function "(#{t('more').downcase})", "toggle_description(this)", :class => 'see_more' %>
+				<span class="showable" style="display:none;"><%= sanitize d.gsub(/\n/, "<br>"), :tags => %W(br) %></span>
+				<%= link_to_function "(#{t('less').downcase})", "toggle_description(this)", :class => 'see_more showable', :style => 'display:none', :onclick => "change_this_name(this)" %>
+			<% else  %>
+				<%= d %>
+			<% end %>
+		<% else %>
+			-
+		<% end %>
+		
+	</div>
+</td>
+<td class="list_actions">
+	<% if (show ||= false) %>
+		<div><%= link_to t('show'), calendar_supplier_account_path(@supplier, :event_date => custom_booking.date, :anchor => "calendar", :read_booking_id => custom_booking.id)  %></div>		
+	<% end %>
+			
+	<div><%= link_to(t('delete'), update_soft_delete_supplier_account_path(@supplier, custom_booking), confirm: t('are_you_sure'), :method => :post) %></div>
+</td>

@@ -1,0 +1,17 @@
+<%= nested_form_for @conversation, :url => conversations_path(@conversation, :id => @object, :transmitter => current_user.email, :object_class => @object.class) do |f| %>
+<div class="subtitulos">
+	Envia un mensaje al proveedor
+</div>
+<div class="message_area">
+		<%= f.fields_for :messages do |message|%>
+		<%= message.text_area :content, :rows => 5 %><br/>
+	<% end %>
+</div>
+<div class="holder">
+	<% if current_user.user_account.has_enough_info%>
+		<%= f.submit :class => 'button' %> <%= image_tag "loading.gif", :class => :select_loading, :style => "display:none;" %>
+	<% else -%>
+		<%= render "layouts/no_enough_user_info", :word => t('send'), :link_class => 'button' %>
+	<% end -%>
+</div>
+<% end %>

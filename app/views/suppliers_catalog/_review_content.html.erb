@@ -1,0 +1,24 @@
+				<tr class="review">
+					<td class="stars">
+						<div class="star-rating-wrap">
+							<div class="star-rating-value" style="background-color: #FCDD3B; width: <%= (review.star_rating.value * 100) / 5  if review.star_rating.present? %>%;"></div>
+						</div>
+						<div class="time_in_words">
+							<%= "Hace " + distance_of_time_in_words(review.created_at, Time.now) %>
+						</div>
+					</td>
+					
+					<td class="review_description">
+						<div style="position:relative;">
+						<span class="review_quotes">"</span> 
+						<% if (d = review.content).length > 120 %>
+							<span class="hideable"><%= d[0..119] + "... " %></span><%= link_to_function "(#{t('more').downcase})", "toggle_description(this)", :class => 'see_more' %>
+							<span class="showable" style="display:none;"><%= sanitize review.content.gsub(/\n/, "<br>"), :tags => %W(br) %></span>
+							<%= link_to_function "(#{t('more').downcase})", "toggle_description(this)", :class => 'see_more showable', :style => 'display:none' %>
+						<% else  %>
+							<%= d %>
+						<% end %>
+							
+						</div>
+					</td>
+				</tr>

@@ -1,0 +1,6 @@
+<%= content_for :supplier_page_in_content do %>
+	<%= sanitize(@presentation.description.gsub(/\n/, '<br/>'), :tags => %W(br))unless @presentation.description.blank? %>
+	<div class="clear"></div>
+<% end %>
+
+<%= render "supplier_page" %>
